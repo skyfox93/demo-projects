@@ -133,12 +133,12 @@ app.use(express.static('doctorwho'));
 
 var pageNum=0;
 app.get('/',(req,res)=>{res.render('projects');});
-app.get('/mailapp', (req,res)=>{pageNum=0;if(credentials){res.redirect('/mailapp/home')} else{res.render('warning')}});
+app.get('/mailapp', (req,res)=>{pageNum=0;res.redirect('/mailapp/home')})
 app.get('/mailapp/next?', (req,res) => {pageNum+=1;res.redirect('/mailapp/home')});
 app.get('maillapp/back?', (req,res) => {pageNum-=1;res.redirect('/mailapp/home')});
 app.get(/^\/mailapp\/email/,(req,res) =>{var emailNum=parseInt(req.url.slice(15)); console.log('URL IS' + req.url);
 res.send(String(parsedlist[emailNum].html)+'</div></body></html>');})
-app.get('/mailapp/home',(req,res) => if{res.locals.pageNum=pageNum,10;res.locals.parsedlist=parsedlist;res.render('emails');});
+app.get('/mailapp/home',(req,res) => {res.locals.pageNum=pageNum,10;res.locals.parsedlist=parsedlist;res.render('emails');});
 
 
 
