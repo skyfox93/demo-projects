@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 // Load Google Credentials
 try{ var credentials=require('./credentials.json')
-var token=require('./token.json')} catch(error){ ' no user credentials stored. That is okay!';}
+var token=require('./token.json')} catch(error){ console.log('no user credentials stored. That is okay!';)}
 const { parse } = require('querystring');
 var pageNum=0;
 const readline = require('readline');
@@ -31,7 +31,7 @@ const simpleParser = require('mailparser').simpleParser;
 
 
 //set up nodemailer for outgoing messages
-let transporter = nodemailer.createTransport({
+try{let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
@@ -44,11 +44,11 @@ let transporter = nodemailer.createTransport({
         accessToken: token.access_token,
         expires:token.expiry_date
     }
-});
+});} catch(er){console.log('unable to load credentials')}
 
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
+  if (err) return console.log('Error loading client secret file:');
   // Authorize a client with credentials, then call the Gmail API.
   authorize(JSON.parse(content), listMessages);
 });
