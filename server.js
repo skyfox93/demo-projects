@@ -44,7 +44,7 @@ try{let transporter = nodemailer.createTransport({
         accessToken: token.access_token,
         expires:token.expiry_date
     }
-});} catch(er){console.log('unable to load credentials')}
+});} catch(er){}
 
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {

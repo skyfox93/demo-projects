@@ -1,3 +1,4 @@
+.env
 .DS_Store
 App/credentials.json
 credentials.json
