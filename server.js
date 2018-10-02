@@ -1,3 +1,4 @@
+
 const express = require('express')
 const app = express();
 const pug = require('pug');
@@ -15,8 +16,8 @@ app.use(cookieParser());
 
 
 // Load Google Credentials
-try{ var credentials=require('./credentials.json')
-var token=require('./token.json')} catch(error){ console.log('no user credentials stored. That is okay!');}
+ var credentials=process.env.installed
+try{var token=require('./token.json')} catch(error){ console.log('no user credentials stored. That is okay!');}
 const { parse } = require('querystring');
 var pageNum=0;
 const readline = require('readline');
@@ -47,11 +48,9 @@ try{let transporter = nodemailer.createTransport({
 });} catch(er){}
 
 // Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:');
-  // Authorize a client with credentials, then call the Gmail API.
-  authorize(JSON.parse(content), listMessages);
-});
+
+  authorize(JSON.parse(credentials), listMessages);
+
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the

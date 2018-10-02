@@ -12,7 +12,8 @@
     "mailparser": "^2.3.3",
     "mime-lib": "^0.5.1",
     "nodemailer": "^4.6.8",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+	"dotenv": "^6.0.0"
   },
   "devDependencies":{
 },
