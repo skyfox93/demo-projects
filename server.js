@@ -187,7 +187,7 @@ app.get('/forum', (req, res) => {console.log('incoming');if(req.cookies.user){co
 app.post('/forum', (req, res) =>{let date=new Date().toUTCString();let topic={heading:req.body.heading,user:req.cookies.user, comments:[], date};topics.push(topic);setTimeout(savetoDisk,2000);
 res.redirect('/forum');});
 
-app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/');});
+app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/forum');});
 
 
 
