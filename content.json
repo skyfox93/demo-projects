@@ -24,7 +24,25 @@
     {
         "heading": "This is a new Discussion!",
         "user": "Skylar",
-        "comments": [],
+        "comments": [
+            {
+                "comment": "I think that's a bit rediculous",
+                "user": "Skylar",
+                "date": "Wed, 03 Oct 2018 15:23:17 GMT"
+            }
+        ],
         "date": "Fri, 28 Sep 2018 01:44:07 GMT"
+    },
+    {
+        "heading": "this is a new discussion",
+        "user": "Skylar",
+        "comments": [],
+        "date": "Thu, 18 Oct 2018 04:26:38 GMT"
+    },
+    {
+        "heading": "okay so what's up with cannot post user",
+        "user": "Skylar",
+        "comments": [],
+        "date": "Thu, 18 Oct 2018 04:26:53 GMT"
     }
 ]

@@ -1,4 +1,8 @@
 require('dotenv').load();
+/*const mongoose = require('mongoose');
+var mongoDB = 'mongodb://127.0.0.1/mongoBasics';
+mongoose.connect(mongoDB);
+*/
 const express = require('express')
 const app = express();
 const pug = require('pug');
@@ -11,7 +15,40 @@ let topics=JSON.parse(fs.readFileSync('./content.json'));
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+/*
+var topicSchema=new mongoose.Schema(
+    {
+        heading: {
+      type: String
+    },
+        user: {
+      type: String
+    },
+        comments: [
+            {
+                comment: {
+      type: String
+    },
+                user: {
+      type: String
+    },
+                date: {
+      type: String
+    }
+            }
+        ],
+        date: {
+      type: String
+    }
+    })
+topicModel = mongoose.model('topicModel', topicSchema );
 
+topicModel.create(topics[0], function (err, instance) {
+  if (err) return console.log(err);console.log(instance)
+  // saved!
+});
+
+*/
 
 
 
@@ -67,7 +104,7 @@ function authorize(credentials, callback,query) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
+    callback(oAuth2Client,query);
   });
 }
 
@@ -129,6 +166,7 @@ gmail.users.messages.get({userId: 'me', id:label.id, format:"raw"},(er, result) 
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('doctorwho'));
+app.use(express.static('imageEdits'));
 
 var pageNum=0;
 app.get('/',(req,res)=>{res.render('projects');});
@@ -137,8 +175,9 @@ app.get('/mailapp/next?', (req,res) => {pageNum+=1;res.redirect('/mailapp/home')
 app.get('maillapp/back?', (req,res) => {pageNum-=1;res.redirect('/mailapp/home')});
 app.get(/^\/mailapp\/email/,(req,res) =>{var emailNum=parseInt(req.url.slice(15)); console.log('URL IS' + req.url);
 res.send(String(parsedlist[emailNum].html)+'</div></body></html>');})
-app.get('/mailapp/home',(req,res) => {res.locals.pageNum=pageNum,10;res.locals.parsedlist=parsedlist;res.render('emails');});
-
+app.get('/mailapp/home',(req,res) => {parsedlist.sort(function(a,b){return b.date- a.date});
+res.locals.pageNum=parseInt(pageNum,10);res.locals.parsedlist=parsedlist;res.render('emails');});
+app.get('/mailapp/query',(req,res) => {var search=req.query.query; authorize(JSON.parse(credentials), listMessages, search);pageNum=0;setTimeout(function(){res.redirect('/mailapp/home')},3000);});
 
 
 app.get('/forum', (req, res) => {console.log('incoming');if(req.cookies.user){console.log(req.cookies);res.render('social',{topics:topics, user:req.cookies.user})} else{res.render('welcomesocial')}});
@@ -148,12 +187,12 @@ app.get('/forum', (req, res) => {console.log('incoming');if(req.cookies.user){co
 app.post('/forum', (req, res) =>{let date=new Date().toUTCString();let topic={heading:req.body.heading,user:req.cookies.user, comments:[], date};topics.push(topic);setTimeout(savetoDisk,2000);
 res.redirect('/forum');});
 
-app.post('forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/');});
+app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/');});
 
 
 
-app.post('forum/comment',(req, res)=>{let date=new Date().toUTCString();
-topics[parseInt(req.body.topicNum)].comments.push({comment:req.body.comment,user:req.cookies.user, date});setTimeout(savetoDisk,5000);res.redirect('/');});
+app.post('/forum/comment',(req, res)=>{let date=new Date().toUTCString();
+topics[parseInt(req.body.topicNum)].comments.push({comment:req.body.comment,user:req.cookies.user, date});setTimeout(savetoDisk,5000);res.redirect('/forum');});
 
 function savetoDisk(){ if(JSON.parse(JSON.stringify(topics,null,4))) {fs.writeFile('./content.json', JSON.stringify(topics,null,4), 'utf-8', function(err) {
 		if (err) throw err
