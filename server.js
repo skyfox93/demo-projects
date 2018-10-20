@@ -1,9 +1,5 @@
 require('dotenv').load();
-/*const mongoose = require('mongoose');
-var mongoDB = 'mongodb://127.0.0.1/mongoBasics';
-mongoose.connect(mongoDB);
-*/
-const express = require('express')
+const express = require('express');
 const app = express();
 const pug = require('pug');
 const bodyParser=require('body-parser');
@@ -15,7 +11,7 @@ let topics=JSON.parse(fs.readFileSync('./content.json'));
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-/*
+
 var topicSchema=new mongoose.Schema(
     {
         heading: {
@@ -42,8 +38,12 @@ var topicSchema=new mongoose.Schema(
     }
     })
 topicModel = mongoose.model('topicModel', topicSchema );
-
-topicModel.create(topics[0], function (err, instance) {
+topicModel.find(function (err, athletes) {
+  if (err) {return handleError(err);}
+	else{console.log(athletes); topics=athletes;}
+  // 'athletes' contains the list of athletes that match the criteria.
+})
+/*topicModel.create(topics[0], function (err, instance) {
   if (err) return console.log(err);console.log(instance)
   // saved!
 });
@@ -189,7 +189,10 @@ res.redirect('/forum');});
 
 app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/forum');});
 
-
+/*topicModel.create(topics[0], function (err, instance) {
+  if (err) return console.log(err);console.log(instance)
+  // saved!
+});
 
 app.post('/forum/comment',(req, res)=>{let date=new Date().toUTCString();
 topics[parseInt(req.body.topicNum)].comments.push({comment:req.body.comment,user:req.cookies.user, date});setTimeout(savetoDisk,5000);res.redirect('/forum');});
