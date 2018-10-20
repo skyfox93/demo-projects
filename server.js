@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+var mongoDB = 'mongodb://127.0.0.1/mongoBasics';
+mongoose.connect(mongoDB);
+
 require('dotenv').load();
 const express = require('express');
 const app = express();
@@ -192,7 +196,7 @@ app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user'
 /*topicModel.create(topics[0], function (err, instance) {
   if (err) return console.log(err);console.log(instance)
   // saved!
-});
+});*/
 
 app.post('/forum/comment',(req, res)=>{let date=new Date().toUTCString();
 topics[parseInt(req.body.topicNum)].comments.push({comment:req.body.comment,user:req.cookies.user, date});setTimeout(savetoDisk,5000);res.redirect('/forum');});
