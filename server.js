@@ -16,35 +16,18 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-var topicSchema=new mongoose.Schema(
-    {
-        heading: {
-      type: String
-    },
-        user: {
-      type: String
-    },
-        comments: [
-            {
-                comment: {
-      type: String
-    },
-                user: {
-      type: String
-    },
-                date: {
-      type: String
-    }
-            }
-        ],
-        date: {
-      type: String
-    }
-    })
-topicModel = mongoose.model('topicModel', topicSchema );
-topicModel.find(function (err, athletes) {
+
+var topic= require('./Models/mongoose.js')
+topic.find(function (err, athletes) {
   if (err) {return handleError(err);}
-	else{console.log(athletes); topics=athletes;}
+	else{console.log(athletes);topics=athletes;}
+
+	
+	// instead of simply loading each topic, and all its comments,
+	// we need to access the database for each topic.
+	// and save each topic to the database. BUT first, branch.
+	
+	
   // 'athletes' contains the list of athletes that match the criteria.
 })
 /*topicModel.create(topics[0], function (err, instance) {
@@ -188,7 +171,7 @@ app.get('/forum', (req, res) => {console.log('incoming');if(req.cookies.user){co
 
 
 
-app.post('/forum', (req, res) =>{let date=new Date().toUTCString();let topic={heading:req.body.heading,user:req.cookies.user, comments:[], date};topics.push(topic);setTimeout(savetoDisk,2000);
+app.post('/forum', (req, res) =>{let date=new Date().toUTCString();let topic={heading:req.body.heading,user:req.cookies.user, comments:[], date};mongoose.update();setTimeout(savetoDisk,2000);
 res.redirect('/forum');});
 
 app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/forum');});

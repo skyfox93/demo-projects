@@ -11,8 +11,7 @@ var topicSchema=new mongoose.Schema(
     },
         user: {
       type: String
-    },
-        comments: [
+    },      comments: [
             {
                 comment: {
       type: String
@@ -29,16 +28,11 @@ var topicSchema=new mongoose.Schema(
       type: String
     }
     })
-topicModel = mongoose.model('topicModel', topicSchema );
-
+var topic = mongoose.model('topic', topicSchema );
+module.exports=topic;
 /*topicModel.create(topics[0], function (err, instance) {
   if (err) return console.log(err);console.log(instance)
   // saved!
 });
 
 */
-topicModel.find(function (err, athletes) {
-  if (err) {return handleError(err);}
-	else{console.log(athletes);}
-  // 'athletes' contains the list of athletes that match the criteria.
-})

@@ -1,48 +1,536 @@
 [
     {
-        "heading": "Who will pick up the CSA?",
-        "user": "Skylar",
-        "comments": [
-            {
-                "comment": "I will!",
-                "user": "Skylar",
-                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
-            },
-            {
-                "comment": "I volunteer as tribute!",
-                "user": "Skylar",
-                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
-            },
-            {
-                "comment": "That's a reference",
-                "user": "Skylar",
-                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
-            }
-        ],
-        "date": "Tue, 18 Sep 2018 02:57:11 GMT"
-    },
-    {
+        "_id": "5bb96b77c0da901d4f438204",
         "heading": "This is a new Discussion!",
         "user": "Skylar",
         "comments": [
             {
+                "_id": "5bb96b77c0da901d4f438205",
                 "comment": "I think that's a bit rediculous",
                 "user": "Skylar",
                 "date": "Wed, 03 Oct 2018 15:23:17 GMT"
             }
         ],
-        "date": "Fri, 28 Sep 2018 01:44:07 GMT"
+        "date": "Fri, 28 Sep 2018 01:44:07 GMT",
+        "__v": 0
     },
     {
-        "heading": "this is a new discussion",
+        "_id": "5bb96fb5a38ea8218f2d92ca",
+        "heading": "Who will pick up the CSA?",
         "user": "Skylar",
-        "comments": [],
-        "date": "Thu, 18 Oct 2018 04:26:38 GMT"
+        "comments": [
+            {
+                "_id": "5bb96fb5a38ea8218f2d92cd",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bb96fb5a38ea8218f2d92cc",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bb96fb5a38ea8218f2d92cb",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
     },
     {
-        "heading": "okay so what's up with cannot post user",
+        "_id": "5bbd263616a1b73d9d71c26b",
+        "heading": "Who will pick up the CSA?",
         "user": "Skylar",
-        "comments": [],
-        "date": "Thu, 18 Oct 2018 04:26:53 GMT"
+        "comments": [
+            {
+                "_id": "5bbd263616a1b73d9d71c26e",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bbd263616a1b73d9d71c26d",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bbd263616a1b73d9d71c26c",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bca96887aaded567c362bec",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bca96887aaded567c362bef",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bca96887aaded567c362bee",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bca96887aaded567c362bed",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bca99d411512e597d51c291",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bca99d411512e597d51c294",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bca99d411512e597d51c293",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bca99d411512e597d51c292",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bca9a2bf29fe459c9242ef3",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bca9a2bf29fe459c9242ef6",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bca9a2bf29fe459c9242ef5",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bca9a2bf29fe459c9242ef4",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb456150420b66b6e12848",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb456150420b66b6e1284b",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb456150420b66b6e1284a",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb456150420b66b6e12849",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb45ff0591fb66fe6fe1be",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb45ff0591fb66fe6fe1c1",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb45ff0591fb66fe6fe1c0",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb45ff0591fb66fe6fe1bf",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb46f24a5295677f7cb617",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb46f24a5295677f7cb61a",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb46f24a5295677f7cb619",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb46f24a5295677f7cb618",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4835e0d099686498f6d8",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4835e0d099686498f6db",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4835e0d099686498f6da",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4835e0d099686498f6d9",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb48d3c7709d6905a7501a",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb48d3c7709d6905a7501d",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb48d3c7709d6905a7501c",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb48d3c7709d6905a7501b",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4af5e566ea69b74e80e7",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4af5e566ea69b74e80ea",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4af5e566ea69b74e80e9",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4af5e566ea69b74e80e8",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4c64e56ffd6ad011603b",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4c64e56ffd6ad011603e",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4c64e56ffd6ad011603d",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4c64e56ffd6ad011603c",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4cc207d8656b2add2efc",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4cc207d8656b2add2eff",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4cc207d8656b2add2efe",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4cc207d8656b2add2efd",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4dd099e1986c1d04dda9",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4dd099e1986c1d04ddac",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4dd099e1986c1d04ddab",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4dd099e1986c1d04ddaa",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb4e0a745e4a6c4c61be33",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb4e0a745e4a6c4c61be36",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb4e0a745e4a6c4c61be35",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb4e0a745e4a6c4c61be34",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb5e76f9abef76d7eb39eb",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb5e76f9abef76d7eb39ee",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb5e76f9abef76d7eb39ed",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb5e76f9abef76d7eb39ec",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb5e8eb4cbd376fd0ba74f",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb5e8eb4cbd376fd0ba752",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb5e8eb4cbd376fd0ba751",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb5e8eb4cbd376fd0ba750",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb78218051398b2fb63386",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb78218051398b2fb63389",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb78218051398b2fb63388",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb78218051398b2fb63387",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
+    },
+    {
+        "_id": "5bcb78523c94f88b5f22bf24",
+        "heading": "Who will pick up the CSA?",
+        "user": "Skylar",
+        "comments": [
+            {
+                "_id": "5bcb78523c94f88b5f22bf27",
+                "comment": "I will!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:21 GMT"
+            },
+            {
+                "_id": "5bcb78523c94f88b5f22bf26",
+                "comment": "I volunteer as tribute!",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:27 GMT"
+            },
+            {
+                "_id": "5bcb78523c94f88b5f22bf25",
+                "comment": "That's a reference",
+                "user": "Skylar",
+                "date": "Tue, 18 Sep 2018 02:57:38 GMT"
+            },
+            {
+                "_id": "5bcd40be4435c51179aecfb4",
+                "comment": "I think that's a bit rediculous",
+                "user": "Skylar",
+                "date": "Mon, 22 Oct 2018 03:15:10 GMT"
+            }
+        ],
+        "date": "Tue, 18 Sep 2018 02:57:11 GMT",
+        "__v": 0
     }
 ]
