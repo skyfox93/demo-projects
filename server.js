@@ -157,9 +157,10 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('doctorwho'));
 app.use(express.static('./imageEdit'));
+app.get('/',(req,res)=>{res.render('projects');});
+
 /*
 var pageNum=0;
-app.get('/',(req,res)=>{res.render('projects');});
 app.get('/mailapp', (req,res)=>{pageNum=0;res.redirect('/mailapp/home')})
 app.get('/mailapp/next?', (req,res) => {pageNum+=1;res.redirect('/mailapp/home')});
 app.get('maillapp/back?', (req,res) => {pageNum-=1;res.redirect('/mailapp/home')});
