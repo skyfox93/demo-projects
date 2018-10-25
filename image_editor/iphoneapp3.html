@@ -15,9 +15,8 @@
 	.hide {display:none;}
 	#strengthtext{width:500px;background-color:lightgray;height:50px;border-style:solid; border-radius:10px;}
 	#bottombar{background-color:slategrey;opacity:1;width:500px;}
-	.show {display:inline;float:left;height:50px;background-color:lightgrey;border-radius:10px;}
-	#brsize{width:100px;}
-#brstrength{width:100px;}
+	.show {display:inline;float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;}
+	.tools{padding:5px;width:300px;background-color:slategray}
     .image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
     position:absolute;display:inline-block;font-size: 200%;top:50px;}
 	#wrap {width:700px;height:400px;position:relative;}
@@ -25,6 +24,49 @@
 	#step2{position:absolute;}
 	#file{display:none;}
 	#blur{margin-left:100px;}
+	input[type="range"]
+{
+    width: 50%;
+    margin: 0px;
+    padding: 8px 0px;
+    outline: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+
+input[type="range"]:focus
+{
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track
+{margin:0px;
+    width: 100%;
+    height: 4px;
+    background: #CCC;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track
+{
+    background:#00AD7A;
+}
+
+input[type="range"]::-webkit-slider-thumb
+{
+    height: 22px;
+    width: 22px;
+    margin-top: -10px;
+    border:1px solid #00AD7A;
+    background: #00AD7A;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+	
+	
+	
 .menu {position:absolute;height:50px;background-color:lightgrey;border-radius:20px;}
 </style>
 <body>
@@ -54,10 +96,8 @@
 <div id="guide" class="guide">
 <p> Use file Icon to load the image you want to edit.</p>  
 <p>You can paint an effect onto the image, or selectively erase the effect.</p>
-<p> The Structure Effect is on by default</p>
-<p>Try using the Eraser to erase the "structure" effect>
-<p>Click the eraser again to stop using it </p>
-<p> Click the brighten button then paint on the image to add a brightness effect. (Turn off the Eraser first!)</p>
+<p> You must click the eraser to turn it on or off</p>
+	<p> Structure is painted in by default</p>
 	<button id="dismiss"> Okay</button>
 	</div>
  	<image class=show src="./Icons/savei.jpg"  id=saveBtn></image>
@@ -68,12 +108,12 @@
 
 <button class=show id='colorBurn'> Color Burn  <input type=color class=show id=color> </button>
 	<button id=help class=show>Help</button>
-<p class=show> Brush Size 
+<div class="tools"> Brush Size 
 
-<input  id=brsize  type=range min=20 max=200 value=50 > <br>
+<input  id=brsize  type="range" min=20 max=200 value=50 > <br>
  Filter Opacity
-<input  id=brstrength type=range min=0 max=10 value=10>
-	</p>
+<input  id=brstrength type="range" min=0 max=10 value=10>
+	</div>
 	</div>
 
 	
@@ -181,7 +221,7 @@ imageObj.onload=function(){
 		context3.globalCompositeOperation="overlay";
 		context3.globalAlpha=1;
 		context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
-		context3.globalAlpha=0.7;
+		context3.globalAlpha=0.6;
 		context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
 
 		
@@ -267,7 +307,7 @@ imageObj.onload=function(){
 		imageData=context.getImageData(0,0,canvas.width,canvas.height);
 		greyscale();
 		context.putImageData(imageData,0,0);
-		stackBlurImage('canvas1',15);
+		stackBlurImage('canvas1',10);
 // invert the blurred image
 	context.globalCompositeOperation="difference";
 	context.fillStyle="white";
@@ -311,45 +351,43 @@ imageObj.onload=function(){
 		  var dist = distanceBetween(lastPoint, currentPoint);
 		  var angle = angleBetween(lastPoint, currentPoint);
 
-			if (dist>size/10) {
+			if (dist>size/15) {
 
-			x = lastPoint.x + (Math.sin(angle) * size/4);
-			y = lastPoint.y + (Math.cos(angle) * size/4);
+		x = lastPoint.x + (Math.sin(angle) * size/4);
+		y = lastPoint.y + (Math.cos(angle) * size/4);
 
-		 var radgrad2 = ctx2.createRadialGradient(x,y,10,x,y,size/2);
+	 	var radgrad2 =ctx2.createRadialGradient(x,y,10,x,y,size/2);
+		radgrad2.addColorStop(0, 'rgba(255,255,255,1)');
+		radgrad2.addColorStop(0.5, 'rgba(255,255,255,0.3)');
+		radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
 
-			radgrad2.addColorStop(0, 'rgba(255,255,255,1)');
-			radgrad2.addColorStop(0.5, 'rgba(255,255,255,0.3)');
-			radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
-
-		 var radgrad = ctx.createRadialGradient(x,y,10,x,y,size/2);
-			radgrad.addColorStop(0, 'rgba(0,0,0,1)');
-			radgrad.addColorStop(0.5, 'rgba(0,0,0,0.3)');
-			radgrad.addColorStop(1, 'rgba(255,0,0,0)');
+	 	var radgrad = ctx.createRadialGradient(x,y,10,x,y,size/2);
+		radgrad.addColorStop(0, 'rgba(255,0,0,1)');
+		radgrad.addColorStop(0.5, 'rgba(255,0,0,0.3)');
+		radgrad.addColorStop(1, 'rgba(255,0,0,0)');
 
 		var radgrad3 = ctx3.createRadialGradient(x,y,10,x,y,size/2);
-			radgrad3.addColorStop(0, 'rgba(0,0,0,1)');
-			radgrad3.addColorStop(0.5, 'rgba(0,0,0,0)');
-			radgrad3.addColorStop(1, 'rgba(0,0,0,0)');
-
+		radgrad3.addColorStop(0, 'rgba(0,0,0,1)');
+		radgrad3.addColorStop(0.5, 'rgba(0,0,0,0)');
+		radgrad3.addColorStop(1, 'rgba(255,0,0,0)');
 		ctx.fillStyle = radgrad;
 		ctx2.fillStyle= radgrad2;
-		ctx3.fillStyle=radgrad3;
+	  	ctx3.fillStyle= radgrad3;
+		if(erase.checked){ctx.globalCompositeOperation='destination-out';
+		ctx2.globalCompositeOperation='destination-out';
+		ctx3.globalCompositeOperation='destination-out';}
 		ctx4.fillStyle=color.value;
-		   if(boost.checked){ctx.fillRect(x-size/2, y-size/2, size, size);}
-			 if (sharp.checked) {ctx2.fillRect(x-size/2, y-size/2, size, size);} 
-		if (boost2.checked) { 
-		ctx3.clearRect(x-size/2, y-size/2, size, size);
-		ctx4.clearRect(x-size/2, y-size/2, size, size);
+	   	if(boost.checked){ctx.fillRect(x-size/2, y-size/2, size, size);}
+		if (sharp.checked) {ctx2.fillRect(x-size/2, y-size/2, size, size);}
+		if (boost2.checked){
+			ctx4.fillRect(x-size/2, y-size/2, size, size);
+			ctx3.fillRect(x-size/2, y-size/2, size, size);
+			ctx3.globalCompositeOperation="source-in";
+			ctx3.drawImage(el4,0,0,el3.width,el.height);
+			ctx3.globalCompositeOperation="source-over";}
+		lastPoint = currentPoint;
+	  }
 
-		ctx4.fillRect(x-size/2, y-size/2, size, size); 
-		ctx3.fillRect(x-size/2, y-size/2, size, size);
-
-
-		ctx3.globalCompositeOperation="source-in";
-		//ctx3.drawImage(el4,0,0,el3.width,el.height);
-		ctx3.globalCompositeOperation="source-over";}
-			  lastPoint = currentPoint;}
 										  }
 		;}
 
@@ -418,7 +456,7 @@ imageObj.onload=function(){
 	};
 
 	document.onkeypress=function(event){
-		if(event.keyCode===93){size+=10};
+		if(event.keyCode==93){size+=10};
 		if(event.keyCode==91){size-=10};
 		if (size<11){size=10;}}
 	el.onmouseup = function(){
@@ -426,7 +464,7 @@ imageObj.onload=function(){
 		adjust();isDrawing = false;
 	};
 
-	el.ontouchend = function() { adjust();el.style.opacity=0;isDrawing = false;
+	el.ontouchend = function() { adjust();el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0;isDrawing = false;
 	};
 
 	var SharpenBTN=document.getElementById('sharpenonly');
