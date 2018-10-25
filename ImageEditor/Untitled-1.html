@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Building an HMTL5 Image Filter</title>
+<style>
+</style>
+</head>
+<body>
+	<h1>Building an HTML5 Image Filter</h1>
+	<h3> What we're building</h3>
+	<p>Many photo imaging apps have filters which create increase boldness and clarity of the image without increasing the overall contrast, for example, instagram's "flux", apple photos' definition, or googles' "pop". We're going to use canvas blending modes to produce a similar effect. </p>
+	
+	<!-- INSERT SAMPLE IMAGEs HERE-->
+	
+
+	
+	
+	<p> </p>
+	
+	
+<canvas id="blurred"></canvas>
+<canvas id="unsharp1"></canvas>
+<canvas id="unsharp2"></canvas>
+<body>
+<script>
+var display=document.getElementById('display');
+var blurred=document.getElementById('blurredCanvas');
+var unsharp1=document.get ElementById('unsharp1');
+var unsharp2=document.get ElementById('unsharp2');
+	
+	
+/* 
+There are four canvases: display, blurred, unsharp1, unsharp2
+ In this example, 3 techniques are applies to sharpen an image.  
+	
+technique 1: create an blurred image, invert it, and add it to the original, thuse canceling out the blurry areas and leaving the sharper areas closer to normal. Overlay this image on top of the existing image. */
+var 	
+	
+/*
+method two: instead of adding, overlay the inverted image on top of the original to produce a similar effect, but with greater loss of contrast. overlay the original on top of the result to restore constrast. this technique results it bolder colors overall 
+
+method 3:(texture enhancing, much slower) using get image data, calculate the differences between the blurred image and the original, at each pixel.(The difference is the details).Take the difference, and multiply lower differences by higher numbers. that is, the blurry parts will be sharpened MORE. 
+
+for example, if the diff is 10, the new difference might be 20*(20/10), evaulaute to 40
+while 5 would be 5* (20/5), evaluating to 20.
+an if statement would ensure that difference above 20 are left as they are.
+
+The overall effect is to dramatically increases sharpeness in smooth areas while not exaggerating details.
+  
+  Finally,draw one of those two results to the canvas depending on what the user selects*/
+  
+  
+ 

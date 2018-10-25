@@ -1,0 +1,1277 @@
+<meta name="viewport" content= "initial-scale=1">
+<html>
+
+<style>
+	#canvas1{width:200px;;}
+	#canvas2 {width:200px;}
+	#image {position:absolute;width:500px;margin-left:0px;}
+	#controls{display:none;}
+	#canvas3{width:500px;float:left;display:inline-block;z-index:0;opacity:}
+	#canvas4{width:500px;;}
+	#canvas5{width:500px;display:none;}
+	#c{float:left;position:absolute;opacity:1;border-style:dotted;z-index:-1;}
+	#buttons{margin-left:300px; margin-bottom:50px; margin-top:30px; width:600px;transform:scale(2,2);}
+	#controls{width:300px;height:100px;right:10px;position:absolute;}
+	
+	.border {margin-left:50px;}
+	.notes {background-color:white;position:absolute;text-align:center;bottom:0px;border-radius:50px;}
+	#bottombar{position:absolute;bottom:0px;z-index:1;background-color:white;opacity:0.8;}
+	.show {float:left;height:50px;}
+    .image {width:500px;height:70px;color:black;text-align:bottom;background:white;
+    position:absolute;display:inline-block;font-size: 200%;bottom:50px;z-index-4;}
+	#wrap {width:500px;height:400px;z-index:0;position:relative;}
+	.spacer {width:500px;height:10px;float:left;}
+	
+	#file{display:none;}
+	#blur{margin-left:100px;}
+		
+</style>
+<body>
+
+<image class=show src="openi.jpg" id=open> </image>
+
+	<div class=border>
+<image src="tardis1.png" id=image></image>
+
+		<canvas id="c" width="500" height="750"></canvas>
+<div class=wrapper id=wrap>
+	
+<canvas id=canvas3></canvas>
+			
+<div id=bottombar>
+ 
+<div class=image id=testrun2><button id=step2> NEXT</button> <span class=notes id=contrasttext> Swipe Here to adjust Contrast   </span>  </div>	
+	<div class=image id=testrun3><span class=notes id=brighttext></span>  </div>
+
+	<div class=image id=testrun> <span class=notes id=strengthtext> Swipe Here to adjust Strength </span>  </div>
+
+	
+<image class=show src="icons/imgres.jpg" id=contrastbtn width=50px opacity=1 ></image>
+<image class=show src="icons/imgres.png"  id=brightbtn width=50px opacity=1 ></image>
+
+<image class=show src="icons/strength.jpg" id=strengthbtn width=50px opacity=1 ></image>
+<image class=show src="icons/savei.jpg"  id=saveBtn></image>
+	</div>
+
+	
+	</div>
+		<div id=controls>
+<div id=buttons>
+	
+
+
+<input type="file" name="file" id="file" accept="image/*;capture=camera" capture="camera" /><br>
+
+	<button id=default>Set to default </button>
+	 Lighting <input type=checkbox id=colorc> <br>
+Detail <input type=checkbox id=sharpen checked>
+ Structure
+<input type=checkbox id=sharpen2 >
+	<button id=maskb> Adjust Mask</button>
+<input id=filter type=range min=8 max=100 value=8>
+<div>Blur radius<input id=blur type=range min=1 max=80 value=60></div>
+<div id=notes></div>	
+
+
+	</div>
+<br>
+<br>Exposure
+<input id=exposure  type=range  min=0 max=255 value=128 >
+<input id=exposure2 value=0>
+<br>Contrast 
+<input id=contrast  type=range  min=0 max=100 value=30 > <input id=contrast2 value=0><br>
+
+HDR % <input id=lighting type=range min=0 max=100 value=80><input id=lighting2 value=20 >
+	<br>
+
+HDR Blur
+
+<input id=blur2 value=10><br> Unsharp Mask
+
+<input type=range id=unsharp min=0 max=15 value=0 checked>
+	
+Resize for ipad <input type=checkbox id=resize> 
+	</div>
+
+
+
+	<canvas id=canvas1></canvas>
+	<canvas id=canvas2></canvas><br>
+	
+	
+	<canvas id=canvas4></canvas><canvas id=canvas5></canvas>
+	</div>
+
+
+</body>
+<script>
+var exposure=document.getElementById('exposure');
+var exposure2=document.getElementById('exposure2');
+var contrastel=document.getElementById('contrast');
+var contrastel2=document.getElementById('contrast2');
+var controls=document.getElementById('controls');
+var blurel = document.getElementById('blur');
+var blurel2=document.getElementById('blur2');
+var filllight=document.getElementById('lighting');
+var filllight2=document.getElementById('lighting2');
+var saveBtn=document.getElementById('saveBtn');
+				  
+var sharp=document.getElementById('sharpen');
+var resizeEl=document.getElementById('resize');
+
+var Default=document.getElementById('default')
+var testRun=document.getElementById('testrun');
+var testRun2=document.getElementById('testrun2');
+var testRun3=document.getElementById('testrun3');
+var wrapEl=document.getElementById('wrap');
+var a=1;
+var el = document.getElementById('c');
+var bottombar=document.getElementById('bottombar');
+var ctx = el.getContext('2d');
+var size;
+var sharp2 = document.getElementById('sharpen2');
+	
+var imageObj = new Image();
+var brightBtn = document.getElementById('brightbtn');
+var strengthBtn = document.getElementById('strengthbtn');
+var contrastBtn = document.getElementById('contrastbtn');
+var stengthtext= document.getElementById('stengthtext');
+var brighttext= document.getElementById('brightext');
+var contrasttext = document.getElementById('contrasttext');
+var step2=document.getElementById('step2');
+var strengthtext=document.getElementById('strengthtext');
+var contrasttest=document.getElementById('contrasttest');
+var filterel=document.getElementById('filter');
+var colorc=document.getElementById('colorc');
+
+function handleFileSelect(evt) {
+			var file = evt.target.files[0]; 
+			console.log(file);		
+			imageObj.src = window.URL.createObjectURL(file);		image.src=imageObj.src;
+}
+
+document.getElementById('file').addEventListener('change', handleFileSelect, false);
+		
+				
+			
+function performClick(node) 
+	{			
+		  	var evt = document.createEvent("MouseEvents");
+			  evt.initEvent("click", true, false);
+		 	 node.dispatchEvent(evt);
+}
+
+document.getElementById('open').addEventListener('click',     function(e) {		
+						performClick(document.getElementById('file'));
+						e.preventDefault();
+  });	
+		
+
+var image= document.getElementById('image');
+
+imageObj.onload=function(){
+var canvas=document.getElementById('canvas1');
+var context=canvas.getContext('2d');
+console.log(imageObj);
+console.log(imageObj.height);
+//imageObj.src=imageObj.src;
+var ratio=imageObj.height/imageObj.width;
+
+canvas.width=500;canvas.height=500*ratio;
+
+el.height=500*ratio;
+
+wrapEl.style.width=	canvas.width;
+wrapEl.style.height=canvas.height+50;
+var canvas2=document.getElementById('canvas2');
+var canvas3=document.getElementById('canvas3');
+var canvas4=document.getElementById('canvas4');
+var canvas5=document.getElementById('canvas4');
+var context2=canvas2.getContext('2d');
+var context3=canvas3.getContext('2d');
+var context4=canvas4.getContext('2d');
+var context5=canvas4.getContext('2d');
+	
+canvas2.width=canvas.width;
+canvas2.height=canvas.height;
+canvas3.width=canvas.width;
+canvas3.height=canvas.height;
+context2.drawImage(imageObj,0,0,canvas.width,canvas.height);
+context3.drawImage(imageObj,0,0,canvas.width,canvas.height);
+var imageData=context.getImageData(0,0,canvas.width,canvas.height);
+
+
+
+var invert=function(){for (var i=0; i <imageData.data.length; i+=4){
+    
+     
+imageData.data[i]=255-imageData.data[i];
+imageData.data[i+1]=255-imageData.data[i+1];
+imageData.data[i+2]=255-imageData.data[i+2];}						  
+}
+var blur=function(Rad){
+
+
+
+
+var mul_table = [
+        512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
+        454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
+        482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,
+        437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,
+        497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,
+        320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,
+        446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,
+        329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,
+        505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,
+        399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,
+        324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,
+        268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,
+        451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,
+        385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,
+        332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,
+        289,287,285,282,280,278,275,273,271,269,267,265,263,261,259];
+        
+   
+var shg_table = [
+	     9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 
+		17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 
+		19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20,
+		20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21,
+		21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+		21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 
+		22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
+		22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 
+		23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+		23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+		23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 
+		23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 
+		24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+		24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+		24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+		24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 ];
+
+function stackBlurImage(radius,blurAlphaChannel )
+{
+			
+ 	var img = image;
+	var w = img.naturalWidth;
+    var h = img.naturalHeight;
+       
+      
+    canvas.style.width  = w + "px";
+    canvas.style.height = h + "px";
+    canvas.width = w;
+    canvas.height = h;
+    
+    context.clearRect( 0, 0, w, h );
+    context.drawImage( img, 0, 0,canvas.height,canvas.width );
+
+	if ( isNaN(radius) || radius < 1 ) return;
+	
+	if ( blurAlphaChannel )
+		stackBlurCanvasRGBA( canvasID, 0, 0, w, h, radius );
+	else 
+		stackBlurCanvasRGB( canvasID, 0, 0, w, h, radius );
+}
+
+
+function stackBlurCanvasRGBA(top_x, top_y, width, height, radius )
+{
+	if ( isNaN(radius) || radius < 1 ) return;
+	radius |= 0;
+	
+	var imageData;
+	
+	try {
+	  try {
+		imageData = context.getImageData( top_x, top_y, width, height );
+	  } catch(e) {
+	  
+		// NOTE: this part is supposedly only needed if you want to work with local files
+		// so it might be okay to remove the whole try/catch block and just use
+		// imageData = context.getImageData( top_x, top_y, width, height );
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+			imageData = context.getImageData( top_x, top_y, width, height );
+		} catch(e) {
+			alert("Cannot access local image");
+			throw new Error("unable to access local image data: " + e);
+			return;
+		}
+	  }
+	} catch(e) {
+	  alert("Cannot access image");
+	  throw new Error("unable to access image data: " + e);
+	}
+			
+	var pixels = imageData.data;
+			
+	var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum, 
+	r_out_sum, g_out_sum, b_out_sum, a_out_sum,
+	r_in_sum, g_in_sum, b_in_sum, a_in_sum, 
+	pr, pg, pb, pa, rbs;
+			
+	var div = radius + radius + 1;
+	var w4 = width << 2;
+	var widthMinus1  = width - 1;
+	var heightMinus1 = height - 1;
+	var radiusPlus1  = radius + 1;
+	var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+	
+	var stackStart = new BlurStack();
+	var stack = stackStart;
+	for ( i = 1; i < div; i++ )
+	{
+		stack = stack.next = new BlurStack();
+		if ( i == radiusPlus1 ) var stackEnd = stack;
+	}
+	stack.next = stackStart;
+	var stackIn = null;
+	var stackOut = null;
+	
+	yw = yi = 0;
+	
+	var mul_sum = mul_table[radius];
+	var shg_sum = shg_table[radius];
+	
+	for ( y = 0; y < height; y++ )
+	{
+		r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
+		
+		r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+		g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+		b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+		a_out_sum = radiusPlus1 * ( pa = pixels[yi+3] );
+		
+		r_sum += sumFactor * pr;
+		g_sum += sumFactor * pg;
+		b_sum += sumFactor * pb;
+		a_sum += sumFactor * pa;
+		
+		stack = stackStart;
+		
+		for( i = 0; i < radiusPlus1; i++ )
+		{
+			stack.r = pr;
+			stack.g = pg;
+			stack.b = pb;
+			stack.a = pa;
+			stack = stack.next;
+		}
+		
+		for( i = 1; i < radiusPlus1; i++ )
+		{
+			p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+			r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+			g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+			b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+			a_sum += ( stack.a = ( pa = pixels[p+3])) * rbs;
+			
+			r_in_sum += pr;
+			g_in_sum += pg;
+			b_in_sum += pb;
+			a_in_sum += pa;
+			
+			stack = stack.next;
+		}
+		
+		
+		stackIn = stackStart;
+		stackOut = stackEnd;
+		for ( x = 0; x < width; x++ )
+		{
+			pixels[yi+3] = pa = (a_sum * mul_sum) >> shg_sum;
+			if ( pa != 0 )
+			{
+				pa = 255 / pa;
+				pixels[yi]   = ((r_sum * mul_sum) >> shg_sum) * pa;
+				pixels[yi+1] = ((g_sum * mul_sum) >> shg_sum) * pa;
+				pixels[yi+2] = ((b_sum * mul_sum) >> shg_sum) * pa;
+			} else {
+				pixels[yi] = pixels[yi+1] = pixels[yi+2] = 0;
+			}
+			
+			r_sum -= r_out_sum;
+			g_sum -= g_out_sum;
+			b_sum -= b_out_sum;
+			a_sum -= a_out_sum;
+			
+			r_out_sum -= stackIn.r;
+			g_out_sum -= stackIn.g;
+			b_out_sum -= stackIn.b;
+			a_out_sum -= stackIn.a;
+			
+			p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+			
+			r_in_sum += ( stackIn.r = pixels[p]);
+			g_in_sum += ( stackIn.g = pixels[p+1]);
+			b_in_sum += ( stackIn.b = pixels[p+2]);
+			a_in_sum += ( stackIn.a = pixels[p+3]);
+			
+			r_sum += r_in_sum;
+			g_sum += g_in_sum;
+			b_sum += b_in_sum;
+			a_sum += a_in_sum;
+			
+			stackIn = stackIn.next;
+			
+			r_out_sum += ( pr = stackOut.r );
+			g_out_sum += ( pg = stackOut.g );
+			b_out_sum += ( pb = stackOut.b );
+			a_out_sum += ( pa = stackOut.a );
+			
+			r_in_sum -= pr;
+			g_in_sum -= pg;
+			b_in_sum -= pb;
+			a_in_sum -= pa;
+			
+			stackOut = stackOut.next;
+
+			yi += 4;
+		}
+		yw += width;
+	}
+
+	
+	for ( x = 0; x < width; x++ )
+	{
+		g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
+		
+		yi = x << 2;
+		r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+		g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+		b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+		a_out_sum = radiusPlus1 * ( pa = pixels[yi+3]);
+		
+		r_sum += sumFactor * pr;
+		g_sum += sumFactor * pg;
+		b_sum += sumFactor * pb;
+		a_sum += sumFactor * pa;
+		
+		stack = stackStart;
+		
+		for( i = 0; i < radiusPlus1; i++ )
+		{
+			stack.r = pr;
+			stack.g = pg;
+			stack.b = pb;
+			stack.a = pa;
+			stack = stack.next;
+		}
+		
+		yp = width;
+		
+		for( i = 1; i <= radius; i++ )
+		{
+			yi = ( yp + x ) << 2;
+			
+			r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+			g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+			b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+			a_sum += ( stack.a = ( pa = pixels[yi+3])) * rbs;
+		   
+			r_in_sum += pr;
+			g_in_sum += pg;
+			b_in_sum += pb;
+			a_in_sum += pa;
+			
+			stack = stack.next;
+		
+			if( i < heightMinus1 )
+			{
+				yp += width;
+			}
+		}
+		
+		yi = x;
+		stackIn = stackStart;
+		stackOut = stackEnd;
+		for ( y = 0; y < height; y++ )
+		{
+			p = yi << 2;
+			pixels[p+3] = pa = (a_sum * mul_sum) >> shg_sum;
+			if ( pa > 0 )
+			{
+				pa = 255 / pa;
+				pixels[p]   = ((r_sum * mul_sum) >> shg_sum ) * pa;
+				pixels[p+1] = ((g_sum * mul_sum) >> shg_sum ) * pa;
+				pixels[p+2] = ((b_sum * mul_sum) >> shg_sum ) * pa;
+			} else {
+				pixels[p] = pixels[p+1] = pixels[p+2] = 0;
+			}
+			
+			r_sum -= r_out_sum;
+			g_sum -= g_out_sum;
+			b_sum -= b_out_sum;
+			a_sum -= a_out_sum;
+		   
+			r_out_sum -= stackIn.r;
+			g_out_sum -= stackIn.g;
+			b_out_sum -= stackIn.b;
+			a_out_sum -= stackIn.a;
+			
+			p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+			
+			r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+			g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+			b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+			a_sum += ( a_in_sum += ( stackIn.a = pixels[p+3]));
+		   
+			stackIn = stackIn.next;
+			
+			r_out_sum += ( pr = stackOut.r );
+			g_out_sum += ( pg = stackOut.g );
+			b_out_sum += ( pb = stackOut.b );
+			a_out_sum += ( pa = stackOut.a );
+			
+			r_in_sum -= pr;
+			g_in_sum -= pg;
+			b_in_sum -= pb;
+			a_in_sum -= pa;
+			
+			stackOut = stackOut.next;
+			
+			yi += width;
+		}
+	}
+	
+	context.putImageData( imageData, top_x, top_y );
+	
+}
+
+
+function stackBlurCanvasRGB( id, top_x, top_y, width, height, radius )
+{
+	if ( isNaN(radius) || radius < 1 ) return;
+	radius |= 0;
+	
+	var canvas  = document.getElementById( id );
+	var context = canvas.getContext("2d");
+	var imageData;
+	
+	try {
+	  try {
+		imageData = context.getImageData( top_x, top_y, width, height );
+	  } catch(e) {
+	  
+		// NOTE: this part is supposedly only needed if you want to work with local files
+		// so it might be okay to remove the whole try/catch block and just use
+		// imageData = context.getImageData( top_x, top_y, width, height );
+		try {
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+			imageData = context.getImageData( top_x, top_y, width, height );
+		} catch(e) {
+			alert("Cannot access local image");
+			throw new Error("unable to access local image data: " + e);
+			return;
+		}
+	  }
+	} catch(e) {
+	  alert("Cannot access image");
+	  throw new Error("unable to access image data: " + e);
+	}
+			
+	var pixels = imageData.data;
+			
+	var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum,
+	r_out_sum, g_out_sum, b_out_sum,
+	r_in_sum, g_in_sum, b_in_sum,
+	pr, pg, pb, rbs;
+			
+	var div = radius + radius + 1;
+	var w4 = width << 2;
+	var widthMinus1  = width - 1;
+	var heightMinus1 = height - 1;
+	var radiusPlus1  = radius + 1;
+	var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+	
+	var stackStart = new BlurStack();
+	var stack = stackStart;
+	for ( i = 1; i < div; i++ )
+	{
+		stack = stack.next = new BlurStack();
+		if ( i == radiusPlus1 ) var stackEnd = stack;
+	}
+	stack.next = stackStart;
+	var stackIn = null;
+	var stackOut = null;
+	
+	yw = yi = 0;
+	
+	var mul_sum = mul_table[radius];
+	var shg_sum = shg_table[radius];
+	
+	for ( y = 0; y < height; y++ )
+	{
+		r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
+		
+		r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+		g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+		b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+		
+		r_sum += sumFactor * pr;
+		g_sum += sumFactor * pg;
+		b_sum += sumFactor * pb;
+		
+		stack = stackStart;
+		
+		for( i = 0; i < radiusPlus1; i++ )
+		{
+			stack.r = pr;
+			stack.g = pg;
+			stack.b = pb;
+			stack = stack.next;
+		}
+		
+		for( i = 1; i < radiusPlus1; i++ )
+		{
+			p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+			r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+			g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+			b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+			
+			r_in_sum += pr;
+			g_in_sum += pg;
+			b_in_sum += pb;
+			
+			stack = stack.next;
+		}
+		
+		
+		stackIn = stackStart;
+		stackOut = stackEnd;
+		for ( x = 0; x < width; x++ )
+		{
+			pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
+			pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
+			pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
+			
+			r_sum -= r_out_sum;
+			g_sum -= g_out_sum;
+			b_sum -= b_out_sum;
+			
+			r_out_sum -= stackIn.r;
+			g_out_sum -= stackIn.g;
+			b_out_sum -= stackIn.b;
+			
+			p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+			
+			r_in_sum += ( stackIn.r = pixels[p]);
+			g_in_sum += ( stackIn.g = pixels[p+1]);
+			b_in_sum += ( stackIn.b = pixels[p+2]);
+			
+			r_sum += r_in_sum;
+			g_sum += g_in_sum;
+			b_sum += b_in_sum;
+			
+			stackIn = stackIn.next;
+			
+			r_out_sum += ( pr = stackOut.r );
+			g_out_sum += ( pg = stackOut.g );
+			b_out_sum += ( pb = stackOut.b );
+			
+			r_in_sum -= pr;
+			g_in_sum -= pg;
+			b_in_sum -= pb;
+			
+			stackOut = stackOut.next;
+
+			yi += 4;
+		}
+		yw += width;
+	}
+
+	
+	for ( x = 0; x < width; x++ )
+	{
+		g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
+		
+		yi = x << 2;
+		r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+		g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+		b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+		
+		r_sum += sumFactor * pr;
+		g_sum += sumFactor * pg;
+		b_sum += sumFactor * pb;
+		
+		stack = stackStart;
+		
+		for( i = 0; i < radiusPlus1; i++ )
+		{
+			stack.r = pr;
+			stack.g = pg;
+			stack.b = pb;
+			stack = stack.next;
+		}
+		
+		yp = width;
+		
+		for( i = 1; i <= radius; i++ )
+		{
+			yi = ( yp + x ) << 2;
+			
+			r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+			g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+			b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+			
+			r_in_sum += pr;
+			g_in_sum += pg;
+			b_in_sum += pb;
+			
+			stack = stack.next;
+		
+			if( i < heightMinus1 )
+			{
+				yp += width;
+			}
+		}
+		
+		yi = x;
+		stackIn = stackStart;
+		stackOut = stackEnd;
+		for ( y = 0; y < height; y++ )
+		{
+			p = yi << 2;
+			pixels[p]   = (r_sum * mul_sum) >> shg_sum;
+			pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
+			pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
+			
+			r_sum -= r_out_sum;
+			g_sum -= g_out_sum;
+			b_sum -= b_out_sum;
+			
+			r_out_sum -= stackIn.r;
+			g_out_sum -= stackIn.g;
+			b_out_sum -= stackIn.b;
+			
+			p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+			
+			r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+			g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+			b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+			
+			stackIn = stackIn.next;
+			
+			r_out_sum += ( pr = stackOut.r );
+			g_out_sum += ( pg = stackOut.g );
+			b_out_sum += ( pb = stackOut.b );
+			
+			r_in_sum -= pr;
+			g_in_sum -= pg;
+			b_in_sum -= pb;
+			
+			stackOut = stackOut.next;
+			
+			yi += width;
+		}
+	}
+	
+	context.putImageData( imageData, top_x, top_y );
+	
+}
+
+function BlurStack()
+{
+	this.r = 0;
+	this.g = 0;
+	this.b = 0;
+	this.a = 0;
+	this.next = null;
+}
+
+ stackBlurCanvasRGBA(0,0,canvas.width, canvas.height,Rad);}
+
+var reset=function(){context.drawImage(canvas3,0,0);context2.drawImage(canvas3,0,0);}
+	
+var greyscale= function() {for (var i=0; i <imageData.data.length; i+=4){
+    
+ var brightness  =  Math.sqrt(imageData.data[i] * imageData.data[i]*0.241 + 0.69 * imageData.data[i+1] * imageData.data[i+1] + 0.068 *imageData.data[i+2] * imageData.data[i+2]); 
+imageData.data[i]=brightness;
+imageData.data[i+1]=brightness
+imageData.data[i+2]=brightness;}						  
+}
+
+var imageData2;
+var imageData3;
+
+
+var removehalo= function() {for (var i=0; i <imageData2.data.length; i+=4){
+   var brightness  =  Math.sqrt(imageData2.data[i] * imageData2.data[i]*0.241 + 0.69 * imageData2.data[i+1] * imageData2.data[i+1] + 0.068 *imageData2.data[i+2] * imageData2.data[i+2]);
+
+imageData2.data[i+3]=255-(Math.abs(128-brightness)*20)
+}}
+
+
+var greyscale2= function() {for (var i=0; i <imageData2.data.length; i+=4){
+    
+ var brightness  =  Math.sqrt(imageData2.data[i] * imageData2.data[i]*0.241 + 0.69 * imageData2.data[i+1] * imageData2.data[i+1] + 0.068 *imageData2.data[i+2] * imageData2.data[i+2]);
+
+imageData2.data[i]=128+(brightness-128);
+imageData2.data[i+1]=128+(brightness-128);
+imageData2.data[i+2]=128+(brightness-128);
+}}
+
+
+
+
+
+var adjust=function(){
+	if (inprocess===1){return;} inprocess=1;
+canvas3.height=canvas2.height;
+canvas3.width=canvas2.width;
+	
+context3.globalAlpha=1;
+context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="overlay";
+//context3.globalCompositeOperation="source-over";
+if(sharp2.checked){context3.drawImage(canvas5,0,0)}
+
+context3.globalAlpha=(contrastel.value/100);context3.globalCompositeOperation="overlay";context3.drawImage(imageObj,0,0);context3.globalAlpha=1
+context3.globalCompositeOperation="overlay";
+var r=exposure.value;
+var g=exposure.value;
+var b =exposure.value;
+context3.fillStyle= "rgb("+ r +", "+ g +", "+ b + ")";
+context3.fillRect(0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="source-over";context3.globalAlpha=1;
+//canvas3 has adjusted image, canvas2 has original
+context.globalAlpha=1;
+
+// APPLY  HDR TO Adjusted ORIGINAL
+context3.globalCompositeOperation='overlay';
+context3.globalAlpha=filllight.value/100;
+
+
+//context3.drawImage(canvas2,0,0,canvas3.width,canvas3.height);
+
+context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
+if(colorc.checked){context3.globalAlpha=0.5;
+context3.globalCompositeOperation="saturation";
+context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);context3.globalAlpha=1;
+
+}
+context3.globalAlpha=1;
+context3.globalCompositeOperation='destination-out';
+context3.drawImage(el,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation='destination-atop';
+
+
+context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
+																			
+context3.globalAlpha=1;
+/*
+if (resizeEl.checked) {canvas3.width=canvas2.width;canvas3.height=canvas2.height;context3.drawImage(canvas2,0,0);} else {
+canvas.width=canvas2.width/2;canvas.height=canvas2.height/2;
+context.drawImage(canvas2,0,0,canvas.width,canvas.height);
+canvas3.width=canvas.width/2;canvas3.height=canvas.height/2;
+context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
+
+}
+*/
+
+canvas3.style.display="initial"; setTimeout(function(){inprocess=0;},200);
+
+
+}	
+var inprocess1=0;
+var save = function()
+
+
+
+
+
+//ORIGINAL SIZED canvas: Apply Exposure AND CONTRAST
+{
+//if (inprocess1===1){return;} inprocess1=1;
+
+if(imageObj.naturalWidth*imageObj.naturalHeight > 12000000){canvas.width=imageObj.naturalWidth;canvas.height=imageObj.naturalHeight;
+context.drawImage(imageObj,0,0,canvas.width,canvas.height);
+					  
+canvas3.width=canvas.width/2;canvas3.height=canvas.height/2;
+context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
+canvas2.width=canvas3.width;canvas2.height=canvas3.height;
+canvas.width=canvas3.width;canvas.height=canvas3.height;
+
+//canvas 3 has original image
+
+
+
+
+}  else {canvas.width=imageObj.naturalWidth;canvas.height=imageObj.naturalHeight;
+ canvas3.width=imageObj.naturalWidth;canvas3.height=imageObj.naturalHeight;context.globalAlpha=1;
+canvas2.width=imageObj.naturalWidth;canvas2.height=imageObj.naturalHeight;
+context3.drawImage(imageObj,0,0,canvas.width,canvas.height);
+}
+
+context2.drawImage(canvas3,0,0);
+//canvas 3 has image
+
+ 
+
+//Sharpening
+
+
+	if(sharp.checked){
+
+canvas.width=imageObj.naturalWidth/2;canvas.height=imageObj.naturalHeight/2;
+context.drawImage(imageObj,0,0,canvas.width,canvas.height);
+
+
+
+blur(5);
+	
+
+
+
+
+//
+canvas3.width=canvas2.width;canvas3.height=canvas2.height;
+
+context3.fillStyle="white";	
+context3.globalAlpha=1;
+
+context3.fillRect(0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="difference";
+context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="lighter";
+context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="difference";
+context3.fillRect(0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="source-over";
+//context 3 has negative difference
+//context2 has original image
+//canvas 1 has bluredimageObj.
+
+
+canvas4.width=canvas2.width;canvas4.height=canvas2.height;
+context4.fillStyle="white";	
+
+
+context4.fillRect(0,0,canvas4.width,canvas4.height);
+context4.globalCompositeOperation="difference";
+context4.drawImage(canvas,0,0,canvas4.width,canvas4.height);
+context4.globalCompositeOperation="lighter";
+context4.drawImage(imageObj,0,0);
+// BRIGHT OUTLINE
+
+
+
+context3.globalAlpha=0.5;
+context3.drawImage(canvas4,0,0);
+context3.globalAlpha=1;
+context4.globalCompositeOperation="source-over";
+context3.globalAlpha=1;
+
+
+
+
+
+
+
+context3.globalCompositeOperation='source-over';
+canvas4.width=canvas2.width;canvas4.height=canvas2.height;
+context4.drawImage(canvas2,0,0);
+context2.globalAlpha=1;;
+
+
+context2.drawImage(canvas3,0,0,canvas2.width,canvas2.height);
+
+context2.globalCompositeOperation='source-over';context2.globalAlpha=1;
+/*
+context2.globalCompositeOperation='destination-out';
+context2.drawImage(el,0,0,canvas2.width,canvas2.height);
+context2.globalCompositeOperation='destination-atop';
+
+
+context2.drawImage(canvas4,0,0);
+context2.globalCompositeOperation="source-over";*/
+
+canvas5.width=canvas2.width;canvas5.height=canvas2.height;
+context5.drawImage(canvas2,0,0);
+
+
+
+
+
+
+blur(5);
+	
+
+
+
+
+//
+canvas3.width=canvas2.width;canvas3.height=canvas2.height;
+
+context3.fillStyle="white";	
+context3.globalAlpha=1;
+
+context3.fillRect(0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="difference";
+context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="lighter";
+context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="difference";
+context3.fillRect(0,0,canvas3.width,canvas3.height);
+context3.globalCompositeOperation="source-over";
+//context 3 has negative difference
+//context2 has original image
+//canvas 1 has bluredimageObj.
+
+
+canvas4.width=canvas2.width;canvas4.height=canvas2.height;
+context4.fillStyle="white";	
+
+
+context4.fillRect(0,0,canvas4.width,canvas4.height);
+context4.globalCompositeOperation="difference";
+context4.drawImage(canvas,0,0,canvas4.width,canvas4.height);
+context4.globalCompositeOperation="lighter";
+context4.drawImage(imageObj,0,0);
+// BRIGHT OUTLINE
+
+
+
+context3.globalAlpha=0.5;
+context3.drawImage(canvas4,0,0);
+context3.globalAlpha=1;
+context4.globalCompositeOperation="source-over";
+context3.globalAlpha=1;
+
+
+
+
+
+
+
+context3.globalCompositeOperation='source-over';
+canvas4.width=canvas2.width;canvas4.height=canvas2.height;
+context4.drawImage(canvas2,0,0);
+context2.globalAlpha=0.5;
+
+
+context2.drawImage(canvas3,0,0,canvas2.width,canvas2.height);
+
+context2.globalCompositeOperation='source-over';context2.globalAlpha=1;
+/*
+context2.globalCompositeOperation='destination-out';
+context2.drawImage(el,0,0,canvas2.width,canvas2.height);
+context2.globalCompositeOperation='destination-atop';
+
+
+context2.drawImage(canvas4,0,0);
+context2.globalCompositeOperation="source-over";*/
+
+canvas5.width=canvas2.width;canvas5.height=canvas2.height;
+context5.drawImage(canvas2,0,0);
+
+
+	}
+
+
+
+blur(5);
+
+imageData=context.getImageData(0,0,canvas.width,canvas.height);
+
+
+
+context.globalCompositeOperation="difference";context.fillStyle="white";
+	context.fillRect(0,0,canvas.width,canvas.height);
+context.globalCompositeOperation="source-over";
+	context.globalCompositeOperation="source-over";
+
+
+
+
+
+//APPLY BLUR
+
+
+adjust();setTimeout(function(){inprocess1=0;},300);
+}
+//canvas2 has sharpened image
+
+//canvas4 has second blur
+//canvas has first blur
+var inprocess=0;
+	
+
+
+
+
+
+var saveimage= function(){var inprocess=0;event.preventDefault;image.src=canvas3.toDataURL("image/jpeg",1.0);image.style.display="inline-block";canvas3.style.display="none";}
+
+var update= function(){ contrastel2.value=contrastel.value;filllight2.value=filllight.value*2;exposure2.value=exposure.value-128;blurel2.value=blurel.value;
+}
+
+
+
+var killit= function (){unsharp.value=0;sharp.checked=false;contrastel.value=0;filllight.value=0;filllight2.value=0;exposure.value=128;testRun.style.height=(filllight.value*5)+50;testRun2.style.height=contrastel.value * 10 +50;testRun3.style.height=exposure.value*2+50;}
+var toDefault= function(){unsharp.value=0;sharp.checked=true;filllight.value=15;filllight2.value=30;blurel.value=5;blurel2.value=5;exposure.value=128;exposure2.value=0;contrastel.value=0;contrastel2.value=0;testRun.style.height=(filllight.value*5)+50;testRun2.style.height=contrastel.value*10 +50;testRun3.style.height=exposure.value*2+50; save();}
+
+Default.addEventListener('click',toDefault);
+
+saveBtn.addEventListener('click',saveimage);
+controls.addEventListener("input", update);
+
+blurel.addEventListener('change',save); 
+
+
+
+
+var click=function(){a++;event.preventDefault();}
+var hide=function(){if (a%2==0){ event.preventDefault();filllight.value=(event.pageX-85)/5;update();testRun.style.opacity=1;adjust();
+strengthtext.innerHTML="STRENGTH "+filllight.value+"%";}}
+var hide2=function(){if (a%2==0){ event.preventDefault();contrastel.value=(event.pageX-85)/5;update();testRun2.style.opacity=1;adjust();contrasttext.innerHTML="CONTRAST  "+contrastel2.value+"%";}}
+var hide3=function(){if (a%2==0){ event.preventDefault();exposure.value=(event.pageX-85)/2;update();testRun3.style.opacity=1;adjust();testRun3.innerHTML="BRIGHTNESS  "+exposure2.value+"%";}}
+
+
+// touch events
+
+
+
+var hide1=function(){ if (event.targetTouches.length == 1){event.preventDefault();filllight.value= (event.targetTouches[0].pageX-50)/5;update();testRun.style.opacity=1;adjust();testRun.innerHTML="Effect Strength (all) "+filllight.value+"%";}}
+var hide12=function(){if(event.targetTouches.length==1) {event.preventDefault();contrastel.value=(event.targetTouches[0].pageX-85)/5;update();adjust();testRun2.innerHTML="Contrast "+contrastel2.value+"%";}}
+var hide13=function(){ if (event.targetTouches.length == 1){event.preventDefault();exposure.value= (event.targetTouches[0].pageX-50)/2;update();testRun3.style.opacity=1;adjust();testRun3.innerHTML="Brightness "+exposure2.value+"%";}}
+
+
+
+////
+function distanceBetween(point1, point2) {
+  return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+}
+function angleBetween(point1, point2) {
+  return Math.atan2( point2.x - point1.x, point2.y - point1.y );
+}
+
+
+ctx.lineJoin = ctx.lineCap = 'round';
+
+var isDrawing, lastPoint;
+size=80;
+
+el.ontouchmove= function(e) {
+if(event.targetTouches.length==1) {event.preventDefault();
+  
+  var currentPoint = { x: event.targetTouches[0].pageX-55, y:event.targetTouches[0].pageY-5 };
+  var dist = distanceBetween(lastPoint, currentPoint);
+  var angle = angleBetween(lastPoint, currentPoint);
+  
+  if (dist>size/4) {
+    
+    x = lastPoint.x + (Math.sin(angle) * size/4);
+    y = lastPoint.y + (Math.cos(angle) * size/4);
+    
+ var radgrad = ctx.createRadialGradient(x,y,10,x,y,size/2);
+    
+    radgrad.addColorStop(0, '#000');
+    radgrad.addColorStop(0.5, 'rgba(0,0,0,0.5)');
+    radgrad.addColorStop(1, 'rgba(0,0,0,0)');
+    
+    ctx.fillStyle = radgrad;
+     ctx.fillRect(x-size/2, y-size/2, size, size); lastPoint = currentPoint;
+  }}}
+
+
+
+
+el.onmousedown = function(e) {el.style.opacity=1;
+  isDrawing = true; el.style.zIndex='1';
+  lastPoint = { x: e.pageX-55, y: e.pageY-5 };
+};
+
+el.ontouchstart = function(e) {el.style.opacity=1;
+  isDrawing = true; el.style.zIndex='1';
+  lastPoint = { x: e.pageX-55, y: e.pageY-5 };
+};
+
+el.onmousemove = function(e) {
+  if (!isDrawing) return;
+  
+  var currentPoint = { x: e.pageX-55, y: e.pageY-5 };
+  var dist = distanceBetween(lastPoint, currentPoint);
+  var angle = angleBetween(lastPoint, currentPoint);
+  
+  if (dist>size/4) {
+    
+    x = lastPoint.x + (Math.sin(angle) * size/4);
+    y = lastPoint.y + (Math.cos(angle) * size/4);
+    
+ var radgrad = ctx.createRadialGradient(x,y,10,x,y,size/2);
+    
+    radgrad.addColorStop(0, '#000');
+    radgrad.addColorStop(0.5, 'rgba(0,0,0,0.5)');
+    radgrad.addColorStop(1, 'rgba(0,0,0,0)');
+    
+    ctx.fillStyle = radgrad;
+     ctx.fillRect(x-size/2, y-size/2, size, size); lastPoint = currentPoint;
+  }
+  
+ 
+};
+
+document.onkeypress=function(event){if(event.keyCode===93){size+=10};if(event.keyCode==91){if (size>11){size-=10};}}
+el.onmouseup = function() { adjust();el.style.opacity=0;
+  isDrawing = false;
+};
+	
+el.ontouchend = function() { adjust();el.style.opacity=0;
+  isDrawing = false;
+};
+
+///
+var toggle=0;
+var mask=document.getElementById('maskb');var notes=document.getElementById('notes');
+	var showmask= function(){if(toggle===0){testRun3.style.display="none";testRun2.style.display="none";testRun.style.display="none";mask.innerHTML='DONE';
+																				//	notes.innerHTML='drag area to mask effects';
+																					toggle=1;el.style.zIndex='1'} else{mask.innerHTML='ADJUST MASK';notes.innerHTML='';toggle=0;el.style.zIndex='-1'}}
+	mask.addEventListener('click',showmask);
+	
+		
+
+var clickConstrast= function(){event.preventDefault;testRun2.style.display="initial";testRun.style.display="none";testRun3.style.display="none";testRun3.style.zIndex='-1';contrastBtn.style.borderStyle="solid";brightBtn.style.borderStyle="none";strengthBtn.borderStyle="none";
+
+
+
+}
+var clickBright= function(){event.preventDefault;testRun3.style.display="initial";testRun2.style.display="none";testRun.style.display="none";contrastBtn.style.borderStyle="none";brightBtn.style.borderStyle="solid";strengthBtn.borderStyle="none";
+
+}
+var clickStrength= function(){event.preventDefault;testRun.style.display="initial";testRun2.style.display="none";testRun3.style.display="none";contrastBtn.style.borderStyle="none";brightBtn.style.borderStyle="none";strengthBtn.borderStyle="dashed";}
+
+
+testRun.addEventListener('touchmove',hide1);
+testRun2.addEventListener('touchmove',hide12);
+testRun3.addEventListener('touchmove',hide13);
+
+
+brightBtn.addEventListener('click',clickBright);
+contrastBtn.addEventListener('click',clickConstrast);
+strengthBtn.addEventListener('click',clickStrength);
+step2.addEventListener('click',clickStrength);
+//mouse Events
+bottombar.addEventListener('mousedown',click);	
+bottombar.addEventListener('mouseup',click);		
+
+testRun.addEventListener('mousemove',hide);
+testRun2.addEventListener('mousemove',hide2);
+testRun3.addEventListener('mousemove',hide3);
+
+sharp.addEventListener('click',adjust);
+sharp2.addEventListener('click',adjust);
+colorc.addEventListener('click',adjust);
+
+save();
+testRun3.style.display="none";testRun.style.display="none";
+}
+
+</script>
+
+
+
+
+</html>
