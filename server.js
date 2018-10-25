@@ -156,7 +156,7 @@ gmail.users.messages.get({userId: 'me', id:label.id, format:"raw"},(er, result) 
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('doctorwho'));
-app.use(express.static('./imageEditor'));
+app.use(express.static('./image_editor'));
 app.get('/',(req,res)=>{res.render('projects');});
 
 /*
