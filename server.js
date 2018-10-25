@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 var mongoDB = 'mongodb://127.0.0.1/mongoBasics';
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB);*/
 
 require('dotenv').load();
 const express = require('express');
@@ -16,11 +16,11 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-
+/*
 var topic= require('./Models/mongoose.js')
 topic.find(function (err, athletes) {
   if (err) {return handleError(err);}
-	else{console.log(athletes);topics=athletes;}
+	else{console.log(athletes);topics=athletes;}})/*
 
 	
 	// instead of simply loading each topic, and all its comments,
@@ -29,7 +29,7 @@ topic.find(function (err, athletes) {
 	
 	
   // 'athletes' contains the list of athletes that match the criteria.
-})
+
 /*topicModel.create(topics[0], function (err, instance) {
   if (err) return console.log(err);console.log(instance)
   // saved!
@@ -38,7 +38,7 @@ topic.find(function (err, athletes) {
 */
 
 
-
+/*
 // Load Google Credentials
  var credentials=process.env.installed
 try{var token=require('./token.json')} catch(error){ console.log('no user credentials stored. That is okay!');}
@@ -75,13 +75,14 @@ try{let transporter = nodemailer.createTransport({
 
   authorize(JSON.parse(credentials), listMessages);
 
-
+*/
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
+/*
 function authorize(credentials, callback,query) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
@@ -101,6 +102,7 @@ function authorize(credentials, callback,query) {
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
+/*
 function getNewToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -146,15 +148,16 @@ function messagelister (err, res){parsedlist=[];
 gmail.users.messages.get({userId: 'me', id:label.id, format:"raw"},(er, result) => {if(err){console.log('ohnoes');} else{let buffed = new Buffer(result.data.raw,'base64'); simpleParser(buffed.toString(), (err,parsed) => {if (parsed){parsedlist.unshift(parsed)}});}})})}}
 
 
-};
+};*/
 
 
 /////////////////// SERVER LOGIC /////////////////////////////////////////////////////////////////////////
+
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('doctorwho'));
-app.use(express.static('imageEdits'));
-
+app.use(express.static('./imageEdit'));
+/*
 var pageNum=0;
 app.get('/',(req,res)=>{res.render('projects');});
 app.get('/mailapp', (req,res)=>{pageNum=0;res.redirect('/mailapp/home')})
@@ -165,21 +168,14 @@ res.send(String(parsedlist[emailNum].html)+'</div></body></html>');})
 app.get('/mailapp/home',(req,res) => {parsedlist.sort(function(a,b){return b.date- a.date});
 res.locals.pageNum=parseInt(pageNum,10);res.locals.parsedlist=parsedlist;res.render('emails');});
 app.get('/mailapp/query',(req,res) => {var search=req.query.query; authorize(JSON.parse(credentials), listMessages, search);pageNum=0;setTimeout(function(){res.redirect('/mailapp/home')},3000);});
-
+*/
 
 app.get('/forum', (req, res) => {console.log('incoming');if(req.cookies.user){console.log(req.cookies);res.render('social',{topics:topics, user:req.cookies.user})} else{res.render('welcomesocial')}});
-
-
 
 app.post('/forum', (req, res) =>{let date=new Date().toUTCString();let topic={heading:req.body.heading,user:req.cookies.user, comments:[], date};mongoose.update();setTimeout(savetoDisk,2000);
 res.redirect('/forum');});
 
 app.post('/forum/user',(req, res)=>{console.log(req.body.user);res.cookie('user',req.body.user,{maxAge:9000000000});res.redirect('/forum');});
-
-/*topicModel.create(topics[0], function (err, instance) {
-  if (err) return console.log(err);console.log(instance)
-  // saved!
-});*/
 
 app.post('/forum/comment',(req, res)=>{let date=new Date().toUTCString();
 topics[parseInt(req.body.topicNum)].comments.push({comment:req.body.comment,user:req.cookies.user, date});setTimeout(savetoDisk,5000);res.redirect('/forum');});
