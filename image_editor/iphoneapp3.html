@@ -106,7 +106,8 @@ input[type="range"]::-webkit-slider-thumb
 	 <button class=show id=details> Structure</button> <button  class=show id='eraseBTN'>Eraser
 	</button> 
 
-<button class=show id='colorBurn'> Color Burn  <input type=color class=show id=color> </button>
+<button class=show id='colorBurn'> Color Burn  <input type=color class=show id=color value=#87CEFA
+> </button>
 	<button id=help class=show>Help</button>
 <div class="tools"> Brush Size 
 
@@ -180,6 +181,9 @@ document.getElementById('open').addEventListener('click',     function(e) {
 var image= document.getElementById('image');
 
 imageObj.onload=function(){ 
+
+
+
 	// DEFINE ELEMENTS
 	var canvas=document.getElementById('canvas1');image.src=imageObj.src;
 	var context=canvas.getContext('2d');
@@ -192,13 +196,15 @@ imageObj.onload=function(){
 	el4.height=500*ratio;
 	wrapEl.style.width=canvas.width+100;
 	wrapEl.style.height=canvas.height+200;
-	var tempCanvas=document.getElementById('tempCanvas');
 	var canvas3=document.getElementById('canvas3');
+
+	var tempCanvas=document.getElementById('tempCanvas');
 	var context2=tempCanvas.getContext('2d');
 	var context3=canvas3.getContext('2d');
 	
 	var imageData;
-
+	image.style.display="inline";canvas3.style.display="block";
+el.style.display="block";el2.style.display="block";el3.style.display="block";el4.style.display="block";
 	// IMAGE FILTERS
 
 	var greyscale= function() {for (var i=0; i <imageData.data.length; i+=4){
@@ -325,7 +331,7 @@ imageObj.onload=function(){
 		}
 	var saveimage= function(){
 		image.src=canvas3.toDataURL("image/jpeg",1.0);image.style.display="inline";canvas3.style.display="none";
-		el.style.display="none";
+		el.style.display="none";el2.style.display="none";el3.style.display="none";el4.style.display="none";
 		}
 		saveBtn.addEventListener('click',saveimage);
 
@@ -473,14 +479,14 @@ imageObj.onload=function(){
 	var colorBurnBTN=document.getElementById('colorBurn');
 
 
-	detailsBTN.onclick=function(){boost.checked=true;boost2.checked=false;sharp.checked=false;detailsBTN.style.backgroundColor="red";SharpenBTN.style.backgroundColor="grey";adjust();
+	detailsBTN.onclick=function(){boost.checked=true;boost2.checked=false;sharp.checked=false;detailsBTN.style.backgroundColor="red";SharpenBTN.style.backgroundColor="grey";colorBurnBTN.style.backgroundColor="grey";adjust();
 	}
 
 
 	SharpenBTN.onclick=function(){sharp.checked=true;boost.checked=false;boost2.checked=false;
-	SharpenBTN.style.backgroundColor="green";detailsBTN.style.backgroundColor="grey";}
+	SharpenBTN.style.backgroundColor="green";detailsBTN.style.backgroundColor="grey";colorBurnBTN.style.backgroundColor="grey";}
 
-	colorBurnBTN.onclick=function(){boost2.checked=true;boost.checked=false; sharp.checked=false;erase.checked=false;SharpenBTN.style.backgroundColor="lightgrey";detailsBTN.style.backgroundColor="lightgrey";} 
+	colorBurnBTN.onclick=function(){boost2.checked=true;boost.checked=false;colorBurnBTN.style.backgroundColor="lightBlue";sharp.checked=false;erase.checked=false;SharpenBTN.style.backgroundColor="lightgrey";detailsBTN.style.backgroundColor="lightgrey";} 
 
 	var eraser=0;
 	eraseBTN.onclick=function(){if(eraser===0){erase.checked=true; eraseBTN.style.backgroundColor='yellow';eraser=1;} else{eraseBTN.style.backgroundColor='grey';erase.checked=false;eraser=0;
