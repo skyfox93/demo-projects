@@ -15,20 +15,22 @@
 	.hide {display:none;}
 	#strengthtext{width:500px;background-color:lightgray;height:50px;border-style:solid; border-radius:10px;}
 	#bottombar{background-color:slategrey;opacity:1;width:500px;}
-	.show {display:inline;float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;}
-	.tools{padding:5px;width:300px;background-color:slategray}
+	.show {display:inline;float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;font-size:1em}
+	.tools{padding:10px;width:400px;background-color:slategray;}
     .image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
     position:absolute;display:inline-block;font-size: 200%;top:50px;}
 	#wrap {width:700px;height:400px;position:relative;}
 	#maskb {background-color:white;display:none;}
 	#step2{position:absolute;}
 	#file{display:none;}
+	#fill,#clear{float:right;margin:0 5px;font-size:1em}
 	#blur{margin-left:100px;}
 	input[type="range"]
+	
 {
-    width: 50%;
+    width: 100px;
     margin: 0px;
-    padding: 8px 0px;
+    padding: 5px;
     outline: none;
     background-color: transparent;
     -webkit-appearance: none;
@@ -96,7 +98,8 @@ input[type="range"]::-webkit-slider-thumb
 <div id="guide" class="guide">
 <p> Use file Icon to load the image you want to edit.</p>  
 <p>You can paint an effect onto the image, or selectively erase the effect.</p>
-<p> You must click the eraser to turn it on or off</p>
+<p>The Eraser only affects the filter currently selected</p>
+<p> click the eraser again to turn it off</p>
 	<p> Structure is painted in by default</p>
 	<button id="dismiss"> Okay</button>
 	</div>
@@ -106,12 +109,12 @@ input[type="range"]::-webkit-slider-thumb
 	 <button class=show id=details> Structure</button> <button  class=show id='eraseBTN'>Eraser
 	</button> 
 
-<button class=show id='colorBurn'> Color Burn  <input type=color class=show id=color value=#87CEFA
+<button class=show id='colorBurn'> Color Overlay <input type=color class=show id=color value=#87CEFA
 > </button>
 	<button id=help class=show>Help</button>
 <div class="tools"> Brush Size 
 
-<input  id=brsize  type="range" min=20 max=200 value=50 > <br>
+<input  id=brsize  type="range" min=20 max=300 value=100 ><button id="fill">Fill Mask</button> <button  id="clear">Clear Mask</button><br>
  Filter Opacity
 <input  id=brstrength type="range" min=0 max=10 value=10>
 	</div>
@@ -268,7 +271,7 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 	context3.drawImage(tempCanvas,0,0,canvas3.width,canvas3.height);
 	//COLOR-BURN
 	context3.globalAlpha=0.5;
-	context3.globalCompositeOperation='color-burn';
+	context3.globalCompositeOperation='overlay';
 	context3.drawImage(el3,0,0,canvas3.width,canvas3.height);
 	// REPLACE WITH ORIGNAL DEPENDING ON EFFECT STRENGTH SLIDER
 	context3.globalAlpha=1-brstrength.value/10;
@@ -321,7 +324,6 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 	
 		// initialize the drawing canvases
 		ctx2.fillStyle="green";
-		ctx.fillStyle="white";
 		ctx.fillStyle="red";
 		ctx.fillRect(0,0,el.width,el.height) 
 		el.style.opacity=0;el2.style.opacity=0;
@@ -401,18 +403,21 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 		if(boost2.checked){
 			el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=1;}
 		else {
-			if(sharp.checked){el.style.opacity=0.25,el2.style.opacity=0.5;}
-			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0.25;}}
+			if(sharp.checked){el.style.opacity=0,el2.style.opacity=0.5;}
+			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0;}}
 	  isDrawing = true; 
 	  lastPoint = { x: e.pageX-55, y: e.pageY-105 };size=brsize.value;
 	};
 
 	el.ontouchstart = function(e)
-		{el.style.opacity=0.5;el2.style.opacity=0.5;el3.style.opacity=0.5;
-	  	isDrawing = true; 
-	  	lastPoint = { x: e.pageX-55, y: e.pageY-105 };size=brsize.value;
+{if(boost2.checked){
+			el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=1;}
+		else {
+			if(sharp.checked){el.style.opacity=0.25,el2.style.opacity=0.5;}
+			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0.25;}}
+	  isDrawing = true; 
+	  lastPoint = { x: e.pageX-55, y: e.pageY-105 };size=brsize.value;
 	};
-
 
 	el.onmousemove = function(e) {
 	  if (!isDrawing) return;
@@ -427,7 +432,7 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 		y = lastPoint.y + (Math.cos(angle) * size/4);
 
 	 	var radgrad2 =ctx2.createRadialGradient(x,y,10,x,y,size/2);
-		radgrad2.addColorStop(0, 'rgba(255,255,255,1)');
+		radgrad2.addColorStop(0, 'rgba(0,255,0,1)');
 		radgrad2.addColorStop(0.5, 'rgba(255,255,255,0.3)');
 		radgrad2.addColorStop(1, 'rgba(0,255,0,0)');
 
@@ -472,7 +477,13 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 
 	el.ontouchend = function() { adjust();el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0;isDrawing = false;
 	};
-
+function fillMask(){if (sharp.checked){ctx2.fillStyle="green";ctx2.fillRect(0,0,el2.width,el2.height);}
+				   if(boost.checked){ctx.fillStyle="red";ctx.fillRect(0,0,el.width,el.height);}
+				   if(boost2.checked){ctx3.fillStyle=color.value;ctx3.fillRect(0,0,el.width,el.height);} adjust();}
+	function clearMask(){if (sharp.checked){ctx2.clearRect(0,0,el2.width,el2.height);}
+				   if(boost.checked){ctx.clearRect(0,0,el.width,el.height);}
+				   if(boost2.checked){ctx3.clearRect(0,0,el.width,el.height);} adjust();}
+	
 	var SharpenBTN=document.getElementById('sharpenonly');
 	var detailsBTN=document.getElementById('details');
 	var eraseBTN=document.getElementById('eraseBTN');
@@ -487,7 +498,9 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 	SharpenBTN.style.backgroundColor="green";detailsBTN.style.backgroundColor="grey";colorBurnBTN.style.backgroundColor="grey";}
 
 	colorBurnBTN.onclick=function(){boost2.checked=true;boost.checked=false;colorBurnBTN.style.backgroundColor="lightBlue";sharp.checked=false;erase.checked=false;SharpenBTN.style.backgroundColor="lightgrey";detailsBTN.style.backgroundColor="lightgrey";} 
-
+	
+	document.getElementById('fill').addEventListener('click',fillMask);
+document.getElementById('clear').addEventListener('click',clearMask);
 	var eraser=0;
 	eraseBTN.onclick=function(){if(eraser===0){erase.checked=true; eraseBTN.style.backgroundColor='yellow';eraser=1;} else{eraseBTN.style.backgroundColor='grey';erase.checked=false;eraser=0;
 	ctx.globalCompositeOperation='source-over';
