@@ -1,7 +1,7 @@
 /*const mongoose = require('mongoose');
 var mongoDB = 'mongodb://127.0.0.1/mongoBasics';
-mongoose.connect(mongoDB);*/
-
+mongoose.connect(mongoDB);
+*/
 require('dotenv').load();
 const express = require('express');
 const app = express();
@@ -16,20 +16,16 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-/*
-var topic= require('./Models/mongoose.js')
+/*var topic= require('./models/mongoose.js')
 topic.find(function (err, athletes) {
   if (err) {return handleError(err);}
 	else{console.log(athletes);topics=athletes;}})/*
-
+*/
 	
 	// instead of simply loading each topic, and all its comments,
 	// we need to access the database for each topic.
 	// and save each topic to the database. BUT first, branch.
 	
-	
-  // 'athletes' contains the list of athletes that match the criteria.
-
 /*topicModel.create(topics[0], function (err, instance) {
   if (err) return console.log(err);console.log(instance)
   // saved!
