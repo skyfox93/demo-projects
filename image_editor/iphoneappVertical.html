@@ -1,30 +1,30 @@
-<meta name="viewport" content="width=500px">
+<meta name="viewport" content= "initial-scale=1">
 <html>
 
 <style>
 	.guide{position:absolute;right:30px;background-color:lightgray;border-radius:10px;padding:1em;}
-	#hiddenInputs{display:none;}
-	#blurCanvas,#tempCanvas {width:500px;float:left;position:absolute;margin-top:100px;z-index:0;display:none;}
+	#buttons{display:none;}
+	#canvas1,#tempCanvas {width:500px;float:left;position:absolute;margin-top:100px;z-index:0;display:none;}
 	#image {width:500px;border:solid green 10px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
 	#controls{display:none;}
-	#canvas3{width:500px;float:left;position:absolute;margin-top:100px;;display:none;z-index:0;}
-	#c,#c2,#c3{float:left;position:absolute;opacity:1;margin-top:100px;}
+	#canvas3{width:500px;float:left;position:absolute;margin-top:50px;display:none;z-index:0;margin-left:100px;margin-left:100px;}
+	#c,#c2,#c3{float:left;position:absolute;opacity:1;margin-left:100px;margin-top:50px;}
 	.border {margin-left:50px;}
-	#c4{float:left;position:absolute;opacity:1;margin-top:100px;opacity:0;}
+	#c4{float:left;position:absolute;opacity:1;margin-top:50px;opacity:0;margin-left:50px;margin-left:100px;}
 	.border {margin-left:50px;}
 	.hide {display:none;}
 	#strengthtext{width:500px;background-color:lightgray;height:50px;border-style:solid; border-radius:10px;}
-	#bottombar{background-color:slategrey;opacity:1;width:500px;}
-	.show {float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;font-size:15px}
-	.tools{padding:10px;width:500px;background-color:slategray;}
+	#bottombar{background-color:slategrey;opacity:1;width:100px;height:400px;position:absolute;}
+	.show {display:inline;float:left;height:50px;background-color:lightgrey;border-radius:10px;margin:0;font-size:1em}
+	.filters{display:'inline-block';width:100%;background-color:lightgrey;font-size:1em;height:50px;border-radius:10px;}
+	.tools{padding:10px;width:400px;background-color:slategray;}
+	#colorBurn{height:100px;}
     .image {width:500px;height:50px;color:black;text-align:right;background-color:grey; opacity:1;
     position:absolute;display:inline-block;font-size: 200%;top:50px;}
-	.slider{display:inline-block;width:200px;}
 	#wrap {width:700px;height:400px;position:relative;}
 	#maskb {background-color:white;display:none;}
 	#step2{position:absolute;}
 	#file{display:none;}
-	#color{width:40px;}
 	#fill,#clear{float:right;margin:0 5px;font-size:1em}
 	#blur{margin-left:100px;}
 	input[type="range"]
@@ -77,14 +77,14 @@ input[type="range"]::-webkit-slider-thumb
 
 <image class=show src="openi.jpg" id=open> </image>
 
-<div id=hiddenInputs>
+<div id=buttons>
 <input type="file" name="file" id="file" accept="image/*"/><br>
 <input type=checkbox id=resize>	
  <input  type=checkbox id=sharpen > 
   <input type=checkbox id=boost checked > 
 <input type=checkbox id=boost2 > 
 	</div>
-<canvas id=blurCanvas></canvas>
+<canvas id=canvas1></canvas>
 <canvas id=tempCanvas></canvas><br>
 
 <div class=border>
@@ -95,7 +95,12 @@ input[type="range"]::-webkit-slider-thumb
 <canvas id="c2" width="500" height="750"></canvas>
 <canvas id="c4" width="500" height="750"></canvas>
 <canvas id="c" width="500" height="750"></canvas>
+<div class="tools"> Brush Size 
 
+<input  id=brsize  type="range" min=20 max=300 value=100 ><button id="fill">Fill Mask</button> <button  id="clear">Clear Mask</button><br>
+ Filter Opacity
+<input  id=brstrength type="range" min=0 max=10 value=10>
+	</div>
 <div class=menu id=bottombar>
 <div id="guide" class="guide">
 <p> Use file Icon to load the image you want to edit.</p>  
@@ -107,19 +112,14 @@ input[type="range"]::-webkit-slider-thumb
 	</div>
  	<image class=show src="./Icons/savei.jpg"  id=saveBtn></image>
 	
-	<button class=show id=sharpenonly> Brighten </button>
-	 <button class=show id=details> Structure</button> <button  class=show id='eraseBTN'>Eraser
+	<button class="filters" id=sharpenonly> Brighten </button>
+	 <button class="filters" id=details> Structure</button> <button  class="filters" id='eraseBTN'>Eraser
 	</button> 
 
-<button class=show id='colorBurn'> Color Overlay <input type=color class=show id=color value=#87CEFA
+<button class="filters" id='colorBurn'> Color Overlay <input type=color class="filters" id=color value=#87CEFA
 > </button>
-	<button id=help class=show>Help</button>
-<div class="tools"><span class="slider"> Brush Size 
+	<button id=help class="filters">Help</button>
 
-<input  id=brsize  type="range" min=20 max=300 value=100 ></span><button id="fill">Fill Mask</button> <button  id="clear">Clear Mask</button><br>
-<span class="slider"> Filter Opacity
-<input  id=brstrength type="range" min=0 max=10 value=10></span>
-	</div>
 	</div>
 
 	
@@ -190,17 +190,17 @@ imageObj.onload=function(){
 
 
 	// DEFINE ELEMENTS
-	var blurCanvas=document.getElementById('blurCanvas');image.src=imageObj.src;
-	var context=blurCanvas.getContext('2d');
+	var canvas=document.getElementById('canvas1');image.src=imageObj.src;
+	var context=canvas.getContext('2d');
 	var ratio=imageObj.height/imageObj.width;
-	blurCanvas.width=500;blurCanvas.height=500*ratio;
+	canvas.width=500;canvas.height=500*ratio;
 
 	el.height=500*ratio;
 	el2.height=500*ratio;
 	el3.height=500*ratio;
 	el4.height=500*ratio;
-	wrapEl.style.width=blurCanvas.width+100;
-	wrapEl.style.height=blurCanvas.height+200;
+	wrapEl.style.width=canvas.width+100;
+	wrapEl.style.height=canvas.height+200;
 	var canvas3=document.getElementById('canvas3');
 
 	var tempCanvas=document.getElementById('tempCanvas');
@@ -231,14 +231,14 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 		context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
 		context3.globalCompositeOperation="overlay";
 		context3.globalAlpha=1;
-		context3.drawImage(blurCanvas,0,0,canvas3.width,canvas3.height);
+		context3.drawImage(canvas,0,0,canvas3.width,canvas3.height);
 		context3.globalAlpha=0.6;
 		context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
 
 		
 		context3.globalAlpha=1;
 		context3.globalCompositeOperation="color";
-		context3.drawImage(imageObj,0,0,canvas3.width,canvas3.height);
+		context3.drawImage(imageObj,0,0,canvas.width,canvas.height);
 		context.globalCompositeOperation="source-over";
 		context3.globalAlpha=1;
 	// KEEP ONLY THE PLACES MARKED WITH THE MASK
@@ -306,23 +306,23 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 	// RESIZE IMAGE
 		tempCanvas.width=imageObj.naturalWidth/2;
 		tempCanvas.height=imageObj.naturalHeight/2;
-		blurCanvas.width=imageObj.naturalWidth/2;blurCanvas.height=imageObj.naturalHeight/2;
+		canvas.width=imageObj.naturalWidth/2;canvas.height=imageObj.naturalHeight/2;
 		context2.drawImage(imageObj,0,0,tempCanvas.width,tempCanvas.height);
-		context.drawImage(tempCanvas,0,0,blurCanvas.width,blurCanvas.height);
+		context.drawImage(tempCanvas,0,0,canvas.width,canvas.height);
 	// INITIALIZE CANVASES
-		tempCanvas.width=blurCanvas.width;
-		tempCanvas.height=blurCanvas.height;
-		canvas3.height =blurCanvas.height;
-		canvas3.width=blurCanvas.width;
+		tempCanvas.width=canvas.width;
+		tempCanvas.height=canvas.height;
+		canvas3.height =canvas.height;
+		canvas3.width=canvas.width;
 	// PROCESS IMAGE
-		imageData=context.getImageData(0,0,blurCanvas.width,blurCanvas.height);
+		imageData=context.getImageData(0,0,canvas.width,canvas.height);
 		greyscale();
 		context.putImageData(imageData,0,0);
-		stackBlurImage('blurCanvas',10);
+		stackBlurImage('canvas1',10);
 // invert the blurred image
 	context.globalCompositeOperation="difference";
 	context.fillStyle="white";
-	context.fillRect(0,0,blurCanvas.width,blurCanvas.height);
+	context.fillRect(0,0,canvas.width,canvas.height);
 	
 		// initialize the drawing canvases
 		ctx2.fillStyle="green";
@@ -357,7 +357,7 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 	el.ontouchmove= function(e) {
 		if(event.targetTouches.length==1) {event.preventDefault(); 
 
-		  var currentPoint = { x: event.targetTouches[0].pageX-55, y:event.targetTouches[0].pageY-115};
+		  var currentPoint = { x: event.targetTouches[0].pageX-155, y:event.targetTouches[0].pageY-65};
 		  var dist = distanceBetween(lastPoint, currentPoint);
 		  var angle = angleBetween(lastPoint, currentPoint);
 
@@ -401,19 +401,30 @@ el.style.display="block";el2.style.display="block";el3.style.display="block";el4
 										  }
 		;}
 
-	function showMask (e){if(boost2.checked){
-			el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0.5;}
+	el.onmousedown = function(e) {
+		if(boost2.checked){
+			el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=1;}
 		else {
 			if(sharp.checked){el.style.opacity=0,el2.style.opacity=0.5;}
-			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0;}}size=brsize.value;isDrawing = true; 
-	  lastPoint = { x: e.pageX-55, y: e.pageY-105 }}
-	el.onmousedown = showMask;
-	el.ontouchstart =showMask;
+			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0;}}
+	  isDrawing = true; 
+	  lastPoint = { x: e.pageX-155, y: e.pageY-55 };size=brsize.value;
+	};
+
+	el.ontouchstart = function(e)
+{if(boost2.checked){
+			el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=1;}
+		else {
+			if(sharp.checked){el.style.opacity=0.25,el2.style.opacity=0.5;}
+			if(boost.checked){el.style.opacity=0.5,el2.style.opacity=0.25;}}
+	  isDrawing = true; 
+	  lastPoint = { x: e.pageX-155, y: e.pageY-55 };size=brsize.value;
+	};
 
 	el.onmousemove = function(e) {
 	  if (!isDrawing) return;
 
-	  var currentPoint = { x: e.pageX-55, y: e.pageY-115 };
+	  var currentPoint = { x: e.pageX-155, y: e.pageY-65 };
 	  var dist = distanceBetween(lastPoint, currentPoint);
 	  var angle = angleBetween(lastPoint, currentPoint);
 
@@ -473,38 +484,21 @@ function convertHex(hex,opacity){
 		if (size<11){size=10;}}
 	el.onmouseup = function(){
 		el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0;
-		adjust();isDrawing = false;
-		ctx.globalCompositeOperation='source-over';
-		ctx2.globalCompositeOperation='source-over';
-		ctx3.globalCompositeOperation='source-over';
+		adjust();isDrawing = false;ctx.globalCompositeOperation='source-over';
+	ctx2.globalCompositeOperation='source-over';
+	ctx3.globalCompositeOperation='source-over';
 	};
 
-	el.ontouchend = function() {
-		adjust();el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0;
-		isDrawing = false;
-		ctx.globalCompositeOperation='source-over';
-		ctx2.globalCompositeOperation='source-over';
-		ctx3.globalCompositeOperation='source-over';
+	el.ontouchend = function() { adjust();el.style.opacity=0;el2.style.opacity=0;el3.style.opacity=0;isDrawing = false;ctx.globalCompositeOperation='source-over';
+	ctx2.globalCompositeOperation='source-over';
+	ctx3.globalCompositeOperation='source-over';
 	};
-	function fillMask(){
-		if (sharp.checked)
-			{ctx2.fillStyle="green";
-			 ctx2.fillRect(0,0,el2.width,el2.height);}
-		if(boost.checked)
-			{ctx.fillStyle="red";
-			 ctx.fillRect(0,0,el.width,el.height);}
-		if(boost2.checked){
-			ctx3.fillStyle=color.value;
-			ctx3.fillRect(0,0,el.width,el.height);
-			ctx4.fillStyle=color.value;
-			ctx4.fillRect(0,0,el.width,el.height);} 
-		adjust();}
-	
-	function clearMask(){
-		if (sharp.checked){ctx2.clearRect(0,0,el2.width,el2.height);}
-		if(boost.checked){ctx.clearRect(0,0,el.width,el.height);}
-		if(boost2.checked){ctx3.clearRect(0,0,el.width,el.height);} 
-		adjust();}
+function fillMask(){if (sharp.checked){ctx2.fillStyle="green";ctx2.fillRect(0,0,el2.width,el2.height);}
+				   if(boost.checked){ctx.fillStyle="red";ctx.fillRect(0,0,el.width,el.height);}
+				   if(boost2.checked){ctx3.fillStyle=color.value;ctx3.fillRect(0,0,el.width,el.height);ctx4.fillStyle=color.value;ctx4.fillRect(0,0,el.width,el.height);} adjust();}
+	function clearMask(){if (sharp.checked){ctx2.clearRect(0,0,el2.width,el2.height);}
+				   if(boost.checked){ctx.clearRect(0,0,el.width,el.height);}
+				   if(boost2.checked){ctx3.clearRect(0,0,el.width,el.height);} adjust();}
 	
 	var SharpenBTN=document.getElementById('sharpenonly');
 	var detailsBTN=document.getElementById('details');
@@ -522,9 +516,8 @@ function convertHex(hex,opacity){
 	colorBurnBTN.onclick=function(){boost2.checked=true;boost.checked=false;colorBurnBTN.style.backgroundColor="lightBlue";sharp.checked=false;erase.checked=false;SharpenBTN.style.backgroundColor="lightgrey";detailsBTN.style.backgroundColor="lightgrey";} 
 	
 	document.getElementById('fill').addEventListener('click',fillMask);
-	document.getElementById('clear').addEventListener('click',clearMask);
+document.getElementById('clear').addEventListener('click',clearMask);
 	var eraser=0;
-	
 	eraseBTN.onclick=function(){if(eraser===0){erase.checked=true; eraseBTN.style.backgroundColor='yellow';eraser=1;} else{eraseBTN.style.backgroundColor='grey';erase.checked=false;eraser=0;
 	}}
 	brstrength.addEventListener('change',adjust)
