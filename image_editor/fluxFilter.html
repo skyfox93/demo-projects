@@ -30,7 +30,7 @@ var context3=canvas3.getContext('2d');
 function handleFileSelect(evt) {
 	if (document.getElementById('newImage')){document.body.removeChild(document.getElementById('newImage'));}
 			var file = evt.target.files[0]; 
-setTimeout(function(){image.src = window.URL.createObjectURL(file);},100); 
+setTimeout(function(){image.src = window.URL.createObjectURL(file);},50); 
 text.innerHTML="Opening Image";
 }
 
@@ -60,27 +60,27 @@ blurCanvas.height=greyCanvas.height/4;
 //SINCE WE ARE BLURING THIS, IT CAN BE SMALLER FOR PERFORMANCE
 blurContext.drawImage(greyCanvas,0,0,blurCanvas.width,blurCanvas.height);
 
-stackBlurImage('blurCanvas',20);// Blur the image
+stackBlurImage('blurCanvas',30);// Blur the image
 // Invert the blurred image
 blurContext.globalAlpha=1;
 blurContext.globalCompositeOperation="difference";blurContext.fillStyle="white";
 blurContext.fillRect(0,0,blurCanvas.width,blurCanvas.height);
 	
 // CREATE MASK	
-greyContext.globalCompositeOperation="source-over"
-greyContext.globalAlpha=0.5;
-greyContext.drawImage(blurCanvas,0,0,greyCanvas.width,greyCanvas.height);
-greyContext.globalAlpha=1;
+//greyContext.globalCompositeOperation="source-over"
+//greyContext.globalAlpha=0.5;
+//greyContext.drawImage(blurCanvas,0,0,greyCanvas.width,greyCanvas.height);
+//greyContext.globalAlpha=1;
 /// OVERLAY MASK ON NEW IMAGE
 canvas3.width=greyCanvas.width;
 canvas3.height=greyCanvas.height;
 context3.globalAlpha=1;
 context3.drawImage(image,0,0,canvas3.width,canvas3.height);
 context3.globalCompositeOperation="overlay";
-context3.globalAlpha=0.7;
-context3.drawImage(greyCanvas,0,0,canvas3.width,canvas3.height);
-
-context3.drawImage(greyCanvas,0,0,canvas3.width,canvas3.height);
+context3.globalAlpha=0.8;
+context3.drawImage(blurCanvas,0,0,canvas3.width,canvas3.height);
+context3.globalAlpha=0.5;
+context3.drawImage(canvas3,0,0,canvas3.width,canvas3.height);
 context3.globalCompositeOperation="source-over";
 
 	// ADD SOME CONTRAST BACK IN
