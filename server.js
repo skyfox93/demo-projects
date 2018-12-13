@@ -153,6 +153,9 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('doctorwho'));
 app.use(express.static('./image_editor'));
+app.use(express.static('./audio_analyzer'));
+app.use(express.static('./convolutionExample'));
+
 app.get('/',(req,res)=>{res.render('projects');});
 
 /*

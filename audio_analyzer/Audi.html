@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<style>
+#image {display:none;}
+#image2 {display:none;}
+#image20 {display:none;}
+#image21 {display:none;}
+#image22 {display:none;}
+#image3 {display:none;}
+#image31 {display:none;}
+#image32 {display:none;}
+
+	#tardis {display:none;}
+</style>
+<script>
+// Create a new instance of an audio object and adjust some of its properties
+var audio = new Audio();
+audio.src = 'track1.m4a';
+audio.controls = true;
+audio.loop = true;
+audio.autoplay = true;
+// Establish all variables that your Analyser will use
+var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height,bar_height3, bar_height2 , lastdata = [],soundvals = [];
+// Initialize the MP3 player after the page loads all of its HTML into the window
+window.addEventListener("load", initMp3Player, false);
+function initMp3Player(){
+	document.getElementById('audio_box').appendChild(audio);
+	context = new  AudioContext();
+	//context = new  webkitAudioContext() // AudioContext object instance
+	analyser = context.createAnalyser(); // AnalyserNode method
+	analyser.fftSize = 32;
+	analyser.smoothingTimeConstant = 0.8 ;
+	canvas = document.getElementById( 'analyser_render');
+	var image3 = document. getElementById('image3');
+	canvas.width=900;
+	canvas.height=900;
+	ctx = canvas.getContext('2d');
+	
+	// Re-route audio playback into the processing graph of the AudioContext
+	source = context.createMediaElementSource(audio); 
+	source.connect(analyser);
+	analyser.connect(context.destination);
+	frameLooper();
+}
+// frameLooper() animates any style of graphics you wish to the audio frequency
+// Looping at the default frame rate that the browser provides(approx. 60 FPS)
+function frameLooper(){
+	
+	
+window.requestAnimationFrame(frameLooper);
+	fbc_array = new Uint8Array(analyser.frequencyBinCount);
+	analyser.getByteFrequencyData(fbc_array);
+	soundvals.push(fbc_array); if(soundvals.length < 2) {soundvals.push (fbc_array);} if (soundvals.length > 80){ soundvals.shift();}
+	
+	
+	 // Color of the bars
+	bars = analyser.frequencyBinCount ;
+	
+
+	
+	
+	bar_height =(fbc_array[2]);
+	bar_height2 =(fbc_array[4]);
+	bar_height3 = (fbc_array[8]);
+	bar_height4 = (fbc_array[8]);
+	bar_height5 = (fbc_array[15]);
+
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.globalAlpha = 1;
+ctx.drawImage(image32,canvas.width/2 -(image32.width/2) ,canvas.height/2 -(image3.height/2),image3.width ,image3.height);
+ctx.drawImage(image22,canvas.width/2 -(image32.width/2*bar_height2/200) ,canvas.height/2 -(image3.height/2*bar_height2/200),image3.width *bar_height2/200,image3.height*bar_height2/200);
+
+
+
+}
+</script>
+</head>
+<body>
+<img src='1.png' id=image>
+<img src='2.png' id=image2>
+<img src='3.png' id=image3>
+<img src="32.png" id= image32>
+<img src= "31.png" id = image31>
+<img src ="20.png" id=image20>
+<image src ="21.png" id=image21>
+<image src = "22.png" id=image22>
+
+<div id="mp3_player">
+  <div id="audio_box"></div>
+  <canvas id="analyser_render"></canvas>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+	img, canvas {width:500px;}
+	#image2 {position:absolute; top:0px;left:0px; mix-blend-mode: overlay;}
+</style>d
+
+</head>
+<body>
+<img id="image" src="2.png">
+<img id="image2" src="1.jpg">
+
+<canvas id="canvas"> </canvas>
+
+<script>
+
+let canvas=document.getElementById('canvas')
+let image=document.getElementById('image')
+let ctx=canvas.getContext('2d')
+function load(){
+canvas.width=image.naturalWidth
+canvas.height=image.naturalHeight
+ctx.drawImage(image,0,0,canvas.width,canvas.height)
+imagedata=ctx.getImageData(0,0,canvas.width,canvas.height)
+for(i=0;i<imagedata.data.length;i+=4)
+{imagedata.data[i] = imagedata.data[i]*1.5
+ imagedata.data[i+1] = imagedata.data[i+1] * 1.5
+ imagedata.data[i+ 2] = imagedata.data[i+2] * 1.5
+}
+ctx.putImageData(imagedata,0,0)
+}
+
+image.onload=load
+</script>
+
+</body>
+
+
+
+
+
+
+
+</html>
